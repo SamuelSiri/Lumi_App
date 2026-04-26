@@ -27,9 +27,9 @@ export default function FloatingNav() {
       transition={{ delay: 0.4, type: 'spring', stiffness: 200, damping: 22 }}
       className="fixed bottom-5 left-1/2 -translate-x-1/2 z-50"
     >
-      <div className="flex items-center gap-0.5 px-3 py-2.5 rounded-2xl bg-white/90 backdrop-blur-xl border" style={{ borderColor: '#00000008', boxShadow: '0 8px 40px rgba(0,0,0,0.08)' }}>
+      <div className="flex items-center gap-0.5 px-3 py-2.5 rounded-2xl bg-white/90 backdrop-blur-xl border" style={{ borderColor: '#0a0a1233', boxShadow: '0 8px 40px rgba(0,0,0,0.08)' }}>
         {/* LUMI mascot */}
-        <div className="hidden sm:flex items-center px-2 mr-1.5 border-r" style={{ borderColor: '#00000008' }}>
+        <div className="hidden sm:flex items-center px-2 mr-1.5 border-r" style={{ borderColor: '#0a0a1233' }}>
           <img src={rosaIcon} alt="LUMI" className="w-7 h-auto" />
         </div>
 
@@ -55,7 +55,7 @@ export default function FloatingNav() {
           );
         })}
 
-        <div className="pl-1 ml-0.5 border-l" style={{ borderColor: '#00000008' }}>
+        <div className="pl-1 ml-0.5 border-l" style={{ borderColor: '#0a0a1233' }}>
           <button
             onClick={() => navigate('/login')}
             className="flex items-center px-3 py-2 rounded-xl transition-all duration-200"

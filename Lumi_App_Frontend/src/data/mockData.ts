@@ -6,9 +6,9 @@ import type {
 
 export const usuarioActual: Usuario = {
   id: '1',
-  nombre: 'María',
-  apellido: 'González',
-  email: 'maria.gonzalez@email.com',
+  nombre: 'DEMO',
+  apellido: 'EMPRENDIMIENTO',
+  email: 'demo@emprendimiento.com',
   rol: 'admin',
   telefono: '+52 55 1234 5678',
 };
@@ -233,7 +233,7 @@ export const eventosCalendario: EventoCalendario[] = [
 
 export const miembrosFamiliares: MiembroFamiliar[] = [
   {
-    id: 'f1', nombre: 'María', apellido: 'González', email: 'maria@email.com',
+    id: 'f1', nombre: 'DEMO', apellido: 'EMPRENDIMIENTO', email: 'demo@emprendimiento.com',
     telefono: '+52 55 1234 5678', rol: 'admin',
     permisos: ['todo'], activo: true, ultimoAcceso: '2026-03-23T14:30:00',
   },

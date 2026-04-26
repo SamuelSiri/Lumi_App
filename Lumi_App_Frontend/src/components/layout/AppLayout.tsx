@@ -7,8 +7,8 @@ export default function AppLayout() {
   return (
     <div className="min-h-screen" style={{ background: '#fafafa' }}>
       {/* Top bar */}
-      <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-xl border-b" style={{ borderColor: '#00000008' }}>
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
+      <header className="sticky top-0 z-40 bg-white/85 backdrop-blur-xl border-b" style={{ borderColor: '#0a0a1233' }}>
+        <div className="w-full px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
           <div className="flex items-center gap-3">
             <img src={rosaLogo} alt="LUMI" className="h-8 w-auto" />
           </div>
@@ -21,11 +21,11 @@ export default function AppLayout() {
             {/* User */}
             <div className="flex items-center gap-2.5">
               <div className="text-right hidden sm:block">
-                <p className="text-xs font-bold" style={{ color: '#0a0a12' }}>María González</p>
-                <p className="text-[10px]" style={{ color: '#8a8a8a' }}>Administradora</p>
+                <p className="text-[11px] font-black uppercase tracking-[0.15em]" style={{ color: '#0a0a12' }}>Demo Emprendimiento</p>
+                <p className="text-[9px] font-bold uppercase tracking-[0.2em]" style={{ color: '#8a8a8a' }}>Administrador</p>
               </div>
-              <div className="w-9 h-9 rounded-full flex items-center justify-center text-white text-xs font-bold" style={{ background: '#FD4282' }}>
-                MG
+              <div className="w-9 h-9 rounded-full flex items-center justify-center text-white text-[10px] font-black tracking-wider" style={{ background: '#FD4282', boxShadow: '0 4px 12px rgba(253,66,130,0.3)' }}>
+                DE
               </div>
             </div>
           </div>
@@ -40,7 +40,7 @@ export default function AppLayout() {
         </div>
       </div>
 
-      <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6 pb-28">
+      <main className="w-full px-4 sm:px-6 lg:px-8 py-6 pb-28">
         <Outlet />
       </main>
 

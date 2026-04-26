@@ -1,502 +1,436 @@
-import { useState } from 'react';
 import { motion } from 'framer-motion';
-import clsx from 'clsx';
 import {
-  Volume2,
-  Moon,
-  Wifi,
-  Bluetooth,
-  Smartphone,
-  Shield,
-  Brain,
-  Play,
-  Search,
+  Volume2, Moon, Wifi, Bluetooth, Smartphone, Shield, Brain,
+  Play, Search, Battery, Cpu, RefreshCw, Trash2, Activity, Zap,
 } from 'lucide-react';
-import { configuracionDispositivo } from '../data/mockData';
+import { configuracionDispositivo, dispositivoLumi } from '../data/mockData';
 import type { ConfiguracionDispositivo } from '../types';
+import { useLocalStorage, clearLumiStorage } from '../hooks/useLocalStorage';
 
 type PersonalidadVoz = ConfiguracionDispositivo['personalidadVoz'];
 
-interface OpcionPersonalidad {
-  valor: PersonalidadVoz;
-  etiqueta: string;
-  descripcion: string;
-}
+const rosa = '#FD4282';
+const azul = '#3F50B3';
+const dark = '#0a0a12';
+const grey = '#8a8a8a';
 
-const opcionesPersonalidad: OpcionPersonalidad[] = [
-  {
-    valor: 'dulce',
-    etiqueta: 'Dulce',
-    descripcion: 'Tono c\u00e1lido y amable',
-  },
-  {
-    valor: 'profesional',
-    etiqueta: 'Profesional',
-    descripcion: 'Tono formal y claro',
-  },
-  {
-    valor: 'energetica',
-    etiqueta: 'Energ\u00e9tica',
-    descripcion: 'Tono animado y alegre',
-  },
+const ctn = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.04, delayChildren: 0.05 } } };
+const item = { hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: 'easeOut' as const } } };
+
+const opcionesPersonalidad: { valor: PersonalidadVoz; etiqueta: string; descripcion: string; accent: string }[] = [
+  { valor: 'dulce', etiqueta: 'Dulce', descripcion: 'Tono cálido y amable', accent: rosa },
+  { valor: 'profesional', etiqueta: 'Profesional', descripcion: 'Tono formal y claro', accent: azul },
+  { valor: 'energetica', etiqueta: 'Energética', descripcion: 'Tono animado y alegre', accent: '#22C55E' },
 ];
 
-/* Sub-componentes */
-
-function Toggle({
-  activo,
-  onChange,
-  variante = 'rosa',
-}: {
-  activo: boolean;
-  onChange: (v: boolean) => void;
-  variante?: 'rosa' | 'blanco';
-}) {
-  const esBlanco = variante === 'blanco';
+function Toggle({ active, onChange, accent = rosa }: { active: boolean; onChange: (v: boolean) => void; accent?: string }) {
   return (
-    <button
-      type="button"
-      role="switch"
-      aria-checked={activo}
-      onClick={() => onChange(!activo)}
-      className={clsx(
-        'relative inline-flex h-7 w-12 shrink-0 cursor-pointer rounded-full transition-colors duration-300',
-        esBlanco
-          ? activo
-            ? 'bg-white/30'
-            : 'bg-white/15'
-          : activo
-            ? 'bg-rosa'
-            : 'bg-gris-300'
-      )}
-    >
-      <span
-        className={clsx(
-          'pointer-events-none inline-block h-5 w-5 translate-y-1 rounded-full shadow-sm transition-all duration-300',
-          activo ? 'translate-x-6' : 'translate-x-1',
-          esBlanco ? 'bg-white' : 'bg-white'
-        )}
-      />
+    <button onClick={() => onChange(!active)}
+      className="relative h-7 w-12 shrink-0 rounded-full transition-all duration-300"
+      style={{ background: active ? accent : `${dark}10`, boxShadow: active ? `0 0 16px ${accent}50` : 'none' }}>
+      <span className="block w-5 h-5 rounded-full bg-white shadow mt-1 transition-all"
+        style={{ marginLeft: active ? 26 : 4 }} />
     </button>
   );
 }
 
-function Slider({
-  valor,
-  onChange,
-  min = 0,
-  max = 100,
-}: {
-  valor: number;
-  onChange: (v: number) => void;
-  min?: number;
-  max?: number;
+function Slider({ value, onChange, accent = rosa, min = 0, max = 100 }: {
+  value: number; onChange: (v: number) => void; accent?: string; min?: number; max?: number;
 }) {
+  const pct = ((value - min) / (max - min)) * 100;
   return (
-    <div className="flex items-center gap-3">
-      <input
-        type="range"
-        min={min}
-        max={max}
-        value={valor}
-        onChange={(e) => onChange(Number(e.target.value))}
-        className="h-2 w-full cursor-pointer appearance-none rounded-full bg-gris-200 accent-rosa"
-      />
-      <span className="min-w-[2.5rem] text-right text-sm font-bold text-gris-700">
-        {valor}%
-      </span>
+    <div>
+      <div className="flex items-center justify-between mb-2">
+        <span className="text-[10px] font-black uppercase tracking-[0.2em]" style={{ color: grey }}>Nivel</span>
+        <span className="text-2xl font-black tracking-tight" style={{ color: dark }}>{value}<span className="text-xs ml-1" style={{ color: grey }}>%</span></span>
+      </div>
+      <div className="relative h-2 rounded-full overflow-hidden" style={{ background: `${dark}1A` }}>
+        <div className="absolute inset-y-0 left-0 rounded-full transition-all"
+          style={{ width: `${pct}%`, background: accent, boxShadow: `0 0 10px ${accent}60` }} />
+      </div>
+      <input type="range" min={min} max={max} value={value} onChange={(e) => onChange(Number(e.target.value))}
+        className="w-full mt-2 cursor-pointer" style={{ accentColor: accent }} />
     </div>
   );
 }
 
-/* P\u00e1gina principal */
+function BatteryDonut({ pct, color }: { pct: number; color: string }) {
+  const r = 36, c = 2 * Math.PI * r;
+  return (
+    <div className="relative w-24 h-24 flex items-center justify-center">
+      <svg width={88} height={88} className="rotate-[-90deg]">
+        <circle cx={44} cy={44} r={r} fill="none" stroke={`${dark}1A`} strokeWidth={6} />
+        <circle cx={44} cy={44} r={r} fill="none" stroke={color} strokeWidth={6} strokeLinecap="round"
+          strokeDasharray={c} strokeDashoffset={c - (c * pct / 100)}
+          style={{ transition: 'stroke-dashoffset 1s ease', filter: `drop-shadow(0 0 4px ${color}80)` }} />
+      </svg>
+      <div className="absolute inset-0 flex flex-col items-center justify-center">
+        <span className="text-xl font-black tracking-tight" style={{ color }}>{pct}%</span>
+      </div>
+    </div>
+  );
+}
+
+function SectionLabel({ num, title, accent = rosa }: { num: string; title: string; accent?: string }) {
+  return (
+    <div className="flex items-center gap-3 mb-4">
+      <span className="text-[10px] font-black tracking-[0.3em] uppercase" style={{ color: accent }}>{num}</span>
+      <span className="h-px flex-1 max-w-[40px]" style={{ background: `${dark}33` }} />
+      <span className="text-[10px] font-bold uppercase tracking-[0.25em]" style={{ color: dark }}>{title}</span>
+    </div>
+  );
+}
 
 export default function DeviceSettings() {
-  const [config, setConfig] = useState<ConfiguracionDispositivo>(
-    () => structuredClone(configuracionDispositivo)
-  );
+  const [config, setConfig] = useLocalStorage<ConfiguracionDispositivo>('config:dispositivo', configuracionDispositivo);
 
-  function actualizar(ruta: string, valor: unknown) {
-    setConfig((prev) => {
-      const nuevo = structuredClone(prev);
-      const partes = ruta.split('.');
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      let obj: any = nuevo;
-      for (let i = 0; i < partes.length - 1; i++) {
-        obj = obj[partes[i]];
-      }
-      obj[partes[partes.length - 1]] = valor;
-      return nuevo;
-    });
-  }
+  const update = <K extends keyof ConfiguracionDispositivo>(key: K, value: ConfiguracionDispositivo[K]) =>
+    setConfig({ ...config, [key]: value });
 
-  const estadoDisp = config.conectividad.wifi ? 'Conectado' : 'Sin conexi\u00f3n';
+  type ObjectKeys = 'modoDescanso' | 'autonomia' | 'conectividad';
+  const updateNested = <K1 extends ObjectKeys, K2 extends keyof ConfiguracionDispositivo[K1]>(
+    k1: K1, k2: K2, value: ConfiguracionDispositivo[K1][K2],
+  ) => setConfig({ ...config, [k1]: { ...config[k1], [k2]: value } });
+
+  const resetAll = () => {
+    if (typeof window !== 'undefined' && window.confirm('¿Borrar toda la configuración guardada y datos de demo?')) {
+      clearLumiStorage();
+      window.location.reload();
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-gris-50 px-4 py-8 font-sans sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-3xl">
-        {/* Encabezado */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: 'easeOut' as const }}
-          className="mb-10"
-        >
-          <div className="flex flex-wrap items-center gap-4">
-            <h1 className="text-3xl font-bold text-negro">
-              Configuraci\u00f3n de Lumi
+    <div className="relative w-full overflow-hidden">
+      <div className="absolute inset-x-0 top-0 pointer-events-none flex items-start justify-center overflow-hidden" style={{ height: '50vh' }}>
+        <span className="whitespace-nowrap select-none" style={{
+          fontSize: 'clamp(140px, 24vw, 420px)', fontWeight: 900, lineHeight: 0.85,
+          letterSpacing: '-0.05em', color: `${dark}05`, textTransform: 'uppercase', marginTop: '-20px',
+        }}>
+          Ajustes
+        </span>
+      </div>
+
+      <span className="absolute pointer-events-none select-none top-[12%] right-[6%] text-2xl" style={{ color: `${rosa}30` }}>✦</span>
+      <span className="absolute pointer-events-none select-none top-[8%] left-[5%] text-xl" style={{ color: `${azul}25` }}>◆</span>
+
+      <motion.div variants={ctn} initial="hidden" animate="show" className="relative z-10 w-full pb-12 space-y-5">
+        {/* HEADER */}
+        <motion.div variants={item} className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
+          <div>
+            <p className="text-[10px] font-black uppercase tracking-[0.3em] mb-3" style={{ color: rosa }}>
+              ✦ Dispositivo · {dispositivoLumi.id.toUpperCase()}
+            </p>
+            <h1 className="font-black uppercase tracking-tight" style={{
+              fontSize: 'clamp(40px, 7vw, 80px)', lineHeight: 0.9, letterSpacing: '-0.04em', color: dark,
+            }}>
+              Ajustes
+              <span className="italic font-light" style={{ color: rosa }}> de LUMI</span>
             </h1>
-            <div
-              className={clsx(
-                'flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-semibold',
-                config.conectividad.wifi
-                  ? 'bg-exito/10 text-exito'
-                  : 'bg-gris-200 text-gris-500'
-              )}
-            >
-              <span
-                className={clsx(
-                  'h-2 w-2 rounded-full',
-                  config.conectividad.wifi ? 'bg-exito' : 'bg-gris-400'
-                )}
-              />
-              {estadoDisp}
-            </div>
           </div>
-          <p className="mt-2 text-sm text-gris-500">
-            Personaliza el comportamiento de Lumi seg\u00fan las necesidades del usuario.
-          </p>
+
+          <button onClick={resetAll}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-full text-[10px] font-black uppercase tracking-[0.18em] shrink-0 self-start transition-all"
+            style={{ background: '#EF444410', color: '#EF4444' }}>
+            <Trash2 size={12} /> Restablecer demo
+          </button>
         </motion.div>
 
-        <div className="space-y-6">
-          {/* Card 1 -- Sensores */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.05, ease: 'easeOut' as const }}
-            className="rounded-2xl border border-gris-100 bg-white p-6 shadow-sm"
-          >
-            <div className="mb-5 flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-rosa-light">
-                <Shield className="h-5 w-5 text-rosa" />
+        {/* TOP MOSAIC: hero status dark + battery donut + signal */}
+        <div className="grid grid-cols-12 gap-4">
+          <motion.div variants={item} className="col-span-12 lg:col-span-7 rounded-2xl border-2 p-6 relative overflow-hidden"
+            style={{ background: dark, borderColor: `${dark}33` }}>
+            <div className="absolute -top-24 -right-24 w-72 h-72 rounded-full pointer-events-none" style={{ background: `${rosa}25`, filter: 'blur(80px)' }} />
+            <div className="absolute -bottom-20 -left-10 w-56 h-56 rounded-full pointer-events-none" style={{ background: `${azul}25`, filter: 'blur(80px)' }} />
+
+            <div className="relative">
+              <div className="flex items-center gap-2 mb-3">
+                <span className="w-1.5 h-1.5 rounded-full" style={{ background: '#22C55E', boxShadow: `0 0 10px #22C55E`, animation: 'pulse-soft 2s ease-in-out infinite' }} />
+                <span className="text-[10px] font-black uppercase tracking-[0.3em]" style={{ color: '#22C55E' }}>● Online</span>
               </div>
-              <h2 className="text-lg font-bold text-negro">
-                Sensibilidad de sensores
+
+              <h2 className="font-black uppercase tracking-tight text-white" style={{
+                fontSize: 'clamp(32px, 5vw, 56px)', lineHeight: 0.9, letterSpacing: '-0.04em',
+              }}>
+                {dispositivoLumi.nombre}
               </h2>
-            </div>
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] mt-2" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                Modelo LUMI-001 · Firmware v3.2.1
+              </p>
 
-            <div className="space-y-6">
-              <div>
-                <label className="mb-2 block text-sm font-medium text-gris-700">
-                  Detecci\u00f3n de ca\u00eddas
-                </label>
-                <Slider
-                  valor={config.sensibilidadCaida}
-                  onChange={(v) => actualizar('sensibilidadCaida', v)}
-                />
-                <p className="mt-1.5 text-xs text-gris-400">
-                  Un valor m\u00e1s alto aumenta la sensibilidad, lo que puede generar m\u00e1s alertas preventivas.
-                </p>
-              </div>
-
-              <div>
-                <label className="mb-2 block text-sm font-medium text-gris-700">
-                  Sensibilidad de movimiento
-                </label>
-                <Slider
-                  valor={config.sensibilidadMovimiento}
-                  onChange={(v) => actualizar('sensibilidadMovimiento', v)}
-                />
-                <p className="mt-1.5 text-xs text-gris-400">
-                  Ajusta qu\u00e9 tan sutil debe ser el movimiento para que Lumi lo registre.
-                </p>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-6 pt-6 border-t" style={{ borderColor: 'rgba(255,255,255,0.1)' }}>
+                {[
+                  { label: 'CPU', value: '32%', color: azul },
+                  { label: 'RAM', value: '46%', color: rosa },
+                  { label: 'Latencia', value: '24ms', color: '#22C55E' },
+                  { label: 'Uptime', value: '14d', color: '#F59E0B' },
+                ].map((m) => (
+                  <div key={m.label}>
+                    <p className="text-[8px] font-black uppercase tracking-[0.25em]" style={{ color: 'rgba(255,255,255,0.4)' }}>{m.label}</p>
+                    <p className="text-xl font-black tracking-tight mt-0.5" style={{ color: m.color }}>{m.value}</p>
+                  </div>
+                ))}
               </div>
             </div>
           </motion.div>
 
-          {/* Card 2 -- Personalidad de voz */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1, ease: 'easeOut' as const }}
-            className="rounded-2xl border border-gris-100 bg-white p-6 shadow-sm"
-          >
-            <div className="mb-5 flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-azul-light">
-                <Volume2 className="h-5 w-5 text-azul" />
-              </div>
-              <h2 className="text-lg font-bold text-negro">
-                Personalidad de voz
-              </h2>
+          <motion.div variants={item} className="col-span-6 lg:col-span-3 rounded-2xl border-2 p-5 flex flex-col items-center justify-center text-center"
+            style={{ background: 'white', borderColor: `${dark}33` }}>
+            <p className="text-[10px] font-black uppercase tracking-[0.25em]" style={{ color: '#22C55E' }}>● Batería</p>
+            <div className="my-3">
+              <BatteryDonut pct={dispositivoLumi.bateria} color="#22C55E" />
             </div>
+            <p className="text-[9px] font-black uppercase tracking-[0.2em]" style={{ color: grey }}>+8h restantes</p>
+          </motion.div>
 
-            {/* Tarjetas de personalidad */}
-            <div className="mb-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
-              {opcionesPersonalidad.map((op) => {
-                const seleccionada = config.personalidadVoz === op.valor;
+          <motion.div variants={item} className="col-span-6 lg:col-span-2 rounded-2xl border-2 p-5 flex flex-col justify-between"
+            style={{ background: 'white', borderColor: `${dark}33` }}>
+            <p className="text-[10px] font-black uppercase tracking-[0.25em]" style={{ color: azul }}>◆ Señal</p>
+            <div className="flex items-end gap-1 my-2">
+              {[40, 60, 80, 95].map((h, i) => (
+                <div key={i} className="flex-1 rounded-sm" style={{
+                  height: `${h * 0.4}px`,
+                  background: dispositivoLumi.senal >= [25, 50, 75, 100][i] ? azul : `${dark}15`,
+                  boxShadow: dispositivoLumi.senal >= [25, 50, 75, 100][i] ? `0 0 6px ${azul}60` : 'none',
+                }} />
+              ))}
+            </div>
+            <p className="text-2xl font-black tracking-tight" style={{ color: dark, letterSpacing: '-0.04em' }}>{dispositivoLumi.senal}%</p>
+            <p className="text-[9px] font-black uppercase tracking-[0.2em]" style={{ color: grey }}>WiFi fuerte</p>
+          </motion.div>
+        </div>
+
+        {/* BIG MOSAIC ROW: Voice + Sensitivity */}
+        <div className="grid grid-cols-12 gap-4">
+          <motion.div variants={item} className="col-span-12 lg:col-span-7 rounded-2xl border-2 p-6"
+            style={{ background: 'white', borderColor: `${dark}33` }}>
+            <SectionLabel num="01" title="Voz y personalidad" accent={rosa} />
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-6">
+              {opcionesPersonalidad.map((o) => {
+                const active = config.personalidadVoz === o.valor;
                 return (
-                  <button
-                    key={op.valor}
-                    onClick={() => actualizar('personalidadVoz', op.valor)}
-                    className={clsx(
-                      'flex flex-col items-center gap-2 rounded-2xl border-2 p-5 text-center transition-colors duration-200',
-                      seleccionada
-                        ? 'border-rosa bg-rosa-light'
-                        : 'border-gris-200 bg-white hover:border-gris-300'
-                    )}
-                  >
-                    <span
-                      className={clsx(
-                        'text-sm font-bold',
-                        seleccionada ? 'text-rosa' : 'text-negro'
-                      )}
-                    >
-                      {op.etiqueta}
-                    </span>
-                    <span className="text-xs text-gris-500">
-                      {op.descripcion}
-                    </span>
+                  <button key={o.valor} onClick={() => update('personalidadVoz', o.valor)}
+                    className="text-left rounded-xl p-4 transition-all duration-300"
+                    style={{
+                      background: active ? o.accent : `${dark}03`,
+                      color: active ? 'white' : dark,
+                      border: `2px solid ${active ? o.accent : `${dark}15`}`,
+                      boxShadow: active ? `0 6px 20px ${o.accent}40` : 'none',
+                    }}>
+                    <p className="text-[9px] font-black uppercase tracking-[0.2em]" style={{ color: active ? 'white' : grey }}>
+                      {active ? '◉ Activa' : 'Tocar'}
+                    </p>
+                    <p className="text-base font-black uppercase tracking-tight mt-1">{o.etiqueta}</p>
+                    <p className="text-xs mt-1" style={{ color: active ? 'rgba(255,255,255,0.8)' : grey }}>{o.descripcion}</p>
                   </button>
                 );
               })}
             </div>
 
-            {/* Volumen */}
-            <div className="mb-5">
-              <label className="mb-2 block text-sm font-medium text-gris-700">
-                Volumen de voz
-              </label>
-              <Slider
-                valor={config.volumenVoz}
-                onChange={(v) => actualizar('volumenVoz', v)}
-              />
+            <div className="flex items-center gap-3 mb-4">
+              <Volume2 size={16} style={{ color: rosa }} />
+              <span className="text-[10px] font-black uppercase tracking-[0.2em]" style={{ color: dark }}>Volumen</span>
             </div>
+            <Slider value={config.volumenVoz} onChange={(v) => update('volumenVoz', v)} accent={rosa} />
 
-            <button className="inline-flex items-center gap-2 rounded-xl bg-rosa px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-rosa-hover">
-              <Play className="h-4 w-4" />
-              Escuchar ejemplo
+            <button className="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-[0.18em] transition-all"
+              style={{ background: `${rosa}10`, color: rosa }}>
+              <Play size={11} fill={rosa} /> Probar voz
             </button>
           </motion.div>
 
-          {/* Card 3 -- Modo descanso (DARK) */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.15, ease: 'easeOut' as const }}
-            className="rounded-2xl bg-negro p-6"
-          >
-            <div className="mb-5 flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gris-800">
-                <Moon className="h-5 w-5 text-white" />
-              </div>
-              <h2 className="text-lg font-bold text-white">
-                Modo descanso
-              </h2>
-            </div>
-
-            {/* Toggle */}
-            <div className="mb-6 flex items-center justify-between">
-              <span className="text-sm font-medium text-gris-300">
-                Activar modo descanso
-              </span>
-              <Toggle
-                activo={config.modoDescanso.activo}
-                onChange={(v) => actualizar('modoDescanso.activo', v)}
-                variante="blanco"
-              />
-            </div>
-
-            {/* Horarios */}
-            <div className="mb-6 grid grid-cols-2 gap-4">
-              <div>
-                <label className="mb-1.5 block text-xs font-medium text-gris-500">
-                  Desde
-                </label>
-                <input
-                  type="time"
-                  value={config.modoDescanso.horaInicio}
-                  onChange={(e) =>
-                    actualizar('modoDescanso.horaInicio', e.target.value)
-                  }
-                  className="w-full rounded-xl border border-gris-700 bg-gris-900 px-4 py-2.5 text-sm text-white focus:border-azul focus:outline-none focus:ring-2 focus:ring-azul/20"
-                />
-              </div>
-              <div>
-                <label className="mb-1.5 block text-xs font-medium text-gris-500">
-                  Hasta
-                </label>
-                <input
-                  type="time"
-                  value={config.modoDescanso.horaFin}
-                  onChange={(e) =>
-                    actualizar('modoDescanso.horaFin', e.target.value)
-                  }
-                  className="w-full rounded-xl border border-gris-700 bg-gris-900 px-4 py-2.5 text-sm text-white focus:border-azul focus:outline-none focus:ring-2 focus:ring-azul/20"
-                />
-              </div>
-            </div>
-
-            <p className="text-xs leading-relaxed text-gris-500">
-              En modo descanso, Lumi cuida en silencio. Solo activar\u00e1 alertas cr\u00edticas.
-            </p>
-          </motion.div>
-
-          {/* Card 4 -- Autonomia */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, ease: 'easeOut' as const }}
-            className="rounded-2xl border border-gris-100 bg-white p-6 shadow-sm"
-          >
-            <div className="mb-5 flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-azul-light">
-                <Brain className="h-5 w-5 text-azul" />
-              </div>
-              <h2 className="text-lg font-bold text-negro">
-                Autonom\u00eda e inteligencia
-              </h2>
-            </div>
+          <motion.div variants={item} className="col-span-12 lg:col-span-5 rounded-2xl border-2 p-6"
+            style={{ background: 'white', borderColor: `${dark}33` }}>
+            <SectionLabel num="02" title="Sensibilidad" accent={azul} />
 
             <div className="space-y-5">
-              <div className="flex items-center justify-between gap-4">
-                <div className="flex-1">
-                  <span className="text-sm font-medium text-gris-700">
-                    Navegaci\u00f3n aut\u00f3noma
-                  </span>
-                  <p className="mt-0.5 text-xs text-gris-400">
-                    Permite a Lumi desplazarse libremente por el hogar.
-                  </p>
-                </div>
-                <Toggle
-                  activo={config.autonomia.navegacionAutonoma}
-                  onChange={(v) =>
-                    actualizar('autonomia.navegacionAutonoma', v)
-                  }
-                />
-              </div>
-
-              <div className="flex items-center justify-between gap-4">
-                <div className="flex-1">
-                  <span className="text-sm font-medium text-gris-700">
-                    Respuesta autom\u00e1tica
-                  </span>
-                  <p className="mt-0.5 text-xs text-gris-400">
-                    Lumi responde sin necesidad de activaci\u00f3n manual.
-                  </p>
-                </div>
-                <Toggle
-                  activo={config.autonomia.respuestaAutomatica}
-                  onChange={(v) =>
-                    actualizar('autonomia.respuestaAutomatica', v)
-                  }
-                />
-              </div>
-
               <div>
-                <label className="mb-2 block text-sm font-medium text-gris-700">
-                  Nivel de independencia
-                </label>
-                <Slider
-                  valor={config.autonomia.nivelIndependencia}
-                  onChange={(v) =>
-                    actualizar('autonomia.nivelIndependencia', v)
-                  }
-                />
-                <p className="mt-1.5 text-xs text-gris-400">
-                  Determina cu\u00e1nta iniciativa propia tiene Lumi para interactuar con el usuario.
-                </p>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Card 5 -- Conectividad */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.25, ease: 'easeOut' as const }}
-            className="rounded-2xl border border-gris-100 bg-white p-6 shadow-sm"
-          >
-            <div className="mb-5 flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-azul-light">
-                <Wifi className="h-5 w-5 text-azul" />
-              </div>
-              <h2 className="text-lg font-bold text-negro">
-                Conectividad
-              </h2>
-            </div>
-
-            <div className="space-y-4">
-              {/* Wi-Fi */}
-              <div className="flex items-center justify-between rounded-xl bg-gris-50 px-4 py-3.5">
-                <div className="flex items-center gap-3">
-                  <Wifi className="h-5 w-5 text-azul" />
-                  <div>
-                    <span className="text-sm font-medium text-gris-700">
-                      Wi-Fi
-                    </span>
-                    {config.conectividad.wifi && (
-                      <p className="mt-0.5 text-[10px] font-semibold text-exito">
-                        Conectado
-                      </p>
-                    )}
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: `${azul}15` }}>
+                      <Shield size={14} style={{ color: azul }} />
+                    </div>
+                    <span className="text-[10px] font-black uppercase tracking-[0.2em]" style={{ color: dark }}>Caídas</span>
                   </div>
                 </div>
-                <Toggle
-                  activo={config.conectividad.wifi}
-                  onChange={(v) => actualizar('conectividad.wifi', v)}
-                />
+                <Slider value={config.sensibilidadCaida} onChange={(v) => update('sensibilidadCaida', v)} accent={azul} />
               </div>
 
-              {/* Bluetooth */}
-              <div className="flex items-center justify-between rounded-xl bg-gris-50 px-4 py-3.5">
-                <div className="flex items-center gap-3">
-                  <Bluetooth className="h-5 w-5 text-azul" />
-                  <div>
-                    <span className="text-sm font-medium text-gris-700">
-                      Bluetooth
-                    </span>
-                    {config.conectividad.bluetooth && (
-                      <p className="mt-0.5 text-[10px] font-semibold text-exito">
-                        Conectado
-                      </p>
-                    )}
+              <div className="pt-4 border-t" style={{ borderColor: `${dark}10` }}>
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: `${azul}15` }}>
+                      <Search size={14} style={{ color: azul }} />
+                    </div>
+                    <span className="text-[10px] font-black uppercase tracking-[0.2em]" style={{ color: dark }}>Movimiento</span>
                   </div>
                 </div>
-                <Toggle
-                  activo={config.conectividad.bluetooth}
-                  onChange={(v) => actualizar('conectividad.bluetooth', v)}
-                />
-              </div>
-
-              {/* Datos moviles */}
-              <div className="flex items-center justify-between rounded-xl bg-gris-50 px-4 py-3.5">
-                <div className="flex items-center gap-3">
-                  <Smartphone className="h-5 w-5 text-gris-400" />
-                  <div>
-                    <span className="text-sm font-medium text-gris-700">
-                      Datos m\u00f3viles
-                    </span>
-                    {!config.conectividad.datosMoviles && (
-                      <p className="mt-0.5 text-[10px] text-gris-400">
-                        Desactivado
-                      </p>
-                    )}
-                  </div>
-                </div>
-                <Toggle
-                  activo={config.conectividad.datosMoviles}
-                  onChange={(v) => actualizar('conectividad.datosMoviles', v)}
-                />
+                <Slider value={config.sensibilidadMovimiento} onChange={(v) => update('sensibilidadMovimiento', v)} accent={azul} />
               </div>
             </div>
-
-            <button className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-azul px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-azul-hover">
-              <Search className="h-4 w-4" />
-              Diagnosticar conexi\u00f3n
-            </button>
           </motion.div>
         </div>
-      </div>
+
+        {/* SLEEP MODE - dark wide */}
+        <motion.div variants={item} className="rounded-2xl border-2 p-6 relative overflow-hidden"
+          style={{ background: dark, borderColor: `${dark}33` }}>
+          <div className="absolute -top-20 -right-20 w-60 h-60 rounded-full pointer-events-none" style={{ background: `${azul}30`, filter: 'blur(80px)' }} />
+
+          <div className="relative grid grid-cols-12 gap-6">
+            <div className="col-span-12 md:col-span-4">
+              <div className="flex items-center gap-2 mb-3">
+                <span className="text-[10px] font-black uppercase tracking-[0.3em]" style={{ color: azul }}>◆ 03</span>
+                <span className="h-px w-8" style={{ background: 'rgba(255,255,255,0.2)' }} />
+                <span className="text-[10px] font-black uppercase tracking-[0.25em] text-white">Modo descanso</span>
+              </div>
+              <h3 className="font-black uppercase tracking-tight text-white" style={{ fontSize: 36, lineHeight: 0.95, letterSpacing: '-0.04em' }}>
+                Sleep
+                <span className="italic font-light" style={{ color: azul }}> mode</span>
+              </h3>
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] mt-2" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                Reduce alertas durante la noche
+              </p>
+            </div>
+
+            <div className="col-span-12 md:col-span-8 flex flex-col justify-center gap-4">
+              <div className="flex items-center justify-between p-4 rounded-xl" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}>
+                <div className="flex items-center gap-3">
+                  <Moon size={18} style={{ color: config.modoDescanso.activo ? azul : 'rgba(255,255,255,0.4)' }} />
+                  <div>
+                    <p className="text-sm font-black uppercase tracking-tight text-white">
+                      {config.modoDescanso.activo ? 'Activado' : 'Desactivado'}
+                    </p>
+                    <p className="text-[10px]" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                      {config.modoDescanso.horaInicio} → {config.modoDescanso.horaFin}
+                    </p>
+                  </div>
+                </div>
+                <Toggle active={config.modoDescanso.activo} onChange={(v) => updateNested('modoDescanso', 'activo', v)} accent={azul} />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="text-[9px] font-black uppercase tracking-[0.2em] block mb-1.5" style={{ color: 'rgba(255,255,255,0.5)' }}>Inicio</label>
+                  <input type="time" value={config.modoDescanso.horaInicio}
+                    onChange={(e) => updateNested('modoDescanso', 'horaInicio', e.target.value)}
+                    disabled={!config.modoDescanso.activo}
+                    className="w-full px-4 py-2.5 rounded-xl text-sm outline-none disabled:opacity-50 text-white"
+                    style={{ background: 'rgba(255,255,255,0.05)', border: '1.5px solid rgba(255,255,255,0.15)' }} />
+                </div>
+                <div>
+                  <label className="text-[9px] font-black uppercase tracking-[0.2em] block mb-1.5" style={{ color: 'rgba(255,255,255,0.5)' }}>Fin</label>
+                  <input type="time" value={config.modoDescanso.horaFin}
+                    onChange={(e) => updateNested('modoDescanso', 'horaFin', e.target.value)}
+                    disabled={!config.modoDescanso.activo}
+                    className="w-full px-4 py-2.5 rounded-xl text-sm outline-none disabled:opacity-50 text-white"
+                    style={{ background: 'rgba(255,255,255,0.05)', border: '1.5px solid rgba(255,255,255,0.15)' }} />
+                </div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* AUTONOMY */}
+        <div>
+          <SectionLabel num="04" title="Autonomía e IA" accent={rosa} />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            {[
+              { Icon: Brain, label: 'Navegación', desc: 'LUMI se mueve sola', value: config.autonomia.navegacionAutonoma, key: 'navegacionAutonoma' as const, color: rosa },
+              { Icon: Cpu, label: 'Respuesta auto.', desc: 'Conversa sin comando', value: config.autonomia.respuestaAutomatica, key: 'respuestaAutomatica' as const, color: azul },
+            ].map((c) => (
+              <motion.div key={c.key} variants={item} className="rounded-2xl border-2 p-5"
+                style={{ background: 'white', borderColor: `${dark}33` }}>
+                <div className="flex items-start justify-between mb-3">
+                  <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: `${c.color}15`, border: `2px solid ${c.color}30` }}>
+                    <c.Icon size={16} style={{ color: c.color }} />
+                  </div>
+                  <Toggle active={c.value} onChange={(v) => updateNested('autonomia', c.key, v)} accent={c.color} />
+                </div>
+                <p className="font-black uppercase tracking-tight text-base" style={{ color: dark }}>{c.label}</p>
+                <p className="text-[10px] mt-1" style={{ color: grey }}>{c.desc}</p>
+                <p className="text-[9px] font-black uppercase tracking-[0.2em] mt-3" style={{ color: c.value ? '#22C55E' : grey }}>
+                  {c.value ? '◉ Activado' : '○ Apagado'}
+                </p>
+              </motion.div>
+            ))}
+
+            <motion.div variants={item} className="rounded-2xl border-2 p-5 relative overflow-hidden"
+              style={{ background: 'white', borderColor: `${dark}33` }}>
+              <div className="absolute top-0 right-0 w-24 h-24 rounded-full pointer-events-none" style={{ background: `${rosa}10`, filter: 'blur(40px)' }} />
+              <div className="relative">
+                <div className="flex items-center gap-2 mb-3">
+                  <RefreshCw size={14} style={{ color: rosa }} />
+                  <span className="text-[10px] font-black uppercase tracking-[0.2em]" style={{ color: dark }}>Independencia</span>
+                </div>
+                <Slider value={config.autonomia.nivelIndependencia}
+                  onChange={(v) => updateNested('autonomia', 'nivelIndependencia', v)} accent={rosa} />
+                <p className="text-[9px] font-bold mt-2" style={{ color: grey }}>
+                  Mayor = más decisiones autónomas
+                </p>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+
+        {/* CONNECTIVITY GRID */}
+        <div>
+          <SectionLabel num="05" title="Conectividad" accent={azul} />
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            {[
+              { key: 'wifi' as const, label: 'WiFi', Icon: Wifi, desc: 'Red inalámbrica', meta: '92% señal' },
+              { key: 'bluetooth' as const, label: 'Bluetooth', Icon: Bluetooth, desc: 'Dispositivos cercanos', meta: '2 conectados' },
+              { key: 'datosMoviles' as const, label: 'Datos móviles', Icon: Smartphone, desc: 'Red celular 4G', meta: 'SIM activa' },
+            ].map((c) => {
+              const active = config.conectividad[c.key];
+              return (
+                <motion.div key={c.key} variants={item} className="rounded-2xl border-2 p-5 relative overflow-hidden"
+                  style={{ background: active ? `${rosa}05` : 'white', borderColor: active ? `${rosa}40` : `${dark}33` }}>
+                  {active && <div className="absolute top-0 right-0 w-24 h-24 rounded-full pointer-events-none" style={{ background: `${rosa}15`, filter: 'blur(40px)' }} />}
+                  <div className="relative flex items-start justify-between mb-3">
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center"
+                      style={{ background: active ? rosa : `${dark}05`, border: `2px solid ${active ? rosa : `${dark}15`}` }}>
+                      <c.Icon size={15} style={{ color: active ? 'white' : grey }} />
+                    </div>
+                    <Toggle active={active} onChange={(v) => updateNested('conectividad', c.key, v)} accent={rosa} />
+                  </div>
+                  <p className="relative font-black uppercase tracking-tight text-base" style={{ color: dark }}>{c.label}</p>
+                  <p className="relative text-[10px] mt-1" style={{ color: grey }}>{c.desc}</p>
+                  <div className="relative mt-3 flex items-center justify-between">
+                    <span className="text-[9px] font-black uppercase tracking-[0.2em]" style={{ color: active ? '#22C55E' : grey }}>
+                      {active ? '◉ Conectado' : '○ Apagado'}
+                    </span>
+                    {active && (
+                      <span className="text-[9px] font-bold uppercase tracking-[0.15em]" style={{ color: grey }}>{c.meta}</span>
+                    )}
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* SYSTEM METRICS */}
+        <motion.div variants={item} className="rounded-2xl border-2 p-5"
+          style={{ background: 'white', borderColor: `${dark}33` }}>
+          <SectionLabel num="06" title="Diagnóstico del sistema" accent={azul} />
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            {[
+              { Icon: Battery, label: 'Carga', value: `${dispositivoLumi.bateria}%`, color: '#22C55E' },
+              { Icon: Cpu, label: 'CPU', value: '32%', color: azul },
+              { Icon: Activity, label: 'Eventos', value: '128', color: rosa },
+              { Icon: Zap, label: 'Latencia', value: '24ms', color: '#F59E0B' },
+            ].map((m) => (
+              <div key={m.label} className="rounded-xl p-3" style={{ background: `${dark}03`, border: `1px solid ${dark}10` }}>
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center mb-2" style={{ background: `${m.color}10` }}>
+                  <m.Icon size={13} style={{ color: m.color }} />
+                </div>
+                <p className="text-2xl font-black tracking-tight" style={{ color: dark, letterSpacing: '-0.04em' }}>{m.value}</p>
+                <p className="text-[9px] font-black uppercase tracking-[0.2em]" style={{ color: grey }}>{m.label}</p>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+      </motion.div>
     </div>
   );
 }
