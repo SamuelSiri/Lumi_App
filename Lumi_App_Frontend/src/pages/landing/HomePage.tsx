@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Thermometer, Flame, Move, ShieldAlert } from 'lucide-react';
 import { C, BlobBG, Deco, MarqueeStrip, WaveDivider, Particles, useSceneObserver } from '../../components/landing/cinematic';

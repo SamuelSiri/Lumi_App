@@ -8,7 +8,6 @@ import blancoLogo from '../assets/images/logo_completo_blanco-removebg-preview.p
 import azulIcon from '../assets/images/icono_lumi_azul-removebg-preview.png';
 import pastelIcon from '../assets/images/rosapastelicon-removebg-preview.png';
 import pastelLogo from '../assets/images/rosa_pastel_logo_completo-removebg-preview.png';
-import azulLogo from '../assets/images/logo_completo_azul-removebg-preview.png';
 
 /* ═══ DATA ═══ */
 const capabilities = [

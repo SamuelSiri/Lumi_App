@@ -6,7 +6,6 @@ import {
   FadeIn,
   Parallax,
   AnimatedCounter,
-  ease,
   SectionDivider,
   staggerContainer,
   staggerItem,

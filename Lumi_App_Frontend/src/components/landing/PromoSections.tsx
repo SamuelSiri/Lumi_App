@@ -1,13 +1,12 @@
 import { useRef } from 'react';
-import { motion, useInView, useScroll, useTransform } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import {
-  Heart, Users, Brain, Shield, Smartphone, Clock, Bell, Smile,
+  Heart, Users, Brain, Shield, Clock, Bell, Smile,
   MessageCircle, Cpu, Home, Wifi, Activity, Zap,
   Eye, Lock, CheckCircle,
 } from 'lucide-react';
-import { FadeIn, Parallax, AnimatedCounter, ease } from './motion';
+import { FadeIn, AnimatedCounter, ease } from './motion';
 import rosaPastelLogo from '../../assets/images/rosa_pastel_logo_completo.png';
-import iconoNegro from '../../assets/images/icono_lumi_negro.png';
 import logoCompletoAzul from '../../assets/images/logo_completo_azul.png';
 import rosaPastelIcon from '../../assets/images/rosapastelicon.png';
 import iconoBlanco from '../../assets/images/icono_blanco.png';

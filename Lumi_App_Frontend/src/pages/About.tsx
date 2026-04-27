@@ -1,5 +1,4 @@
-import { useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
 import { Heart, Shield, Eye, Radio, Cpu, Lightbulb, Users, Home } from 'lucide-react';
 import { C, BlobBG, Deco, MarqueeStrip, WaveDivider, Particles, PageHero, CTASection, useSceneObserver } from '../components/landing/cinematic';
 
@@ -7,8 +6,6 @@ import rosaIcon from '../assets/images/rosa_vivido_icon-removebg-preview.png';
 import azulIcon from '../assets/images/icono_lumi_azul-removebg-preview.png';
 import pastelIcon from '../assets/images/rosapastelicon-removebg-preview.png';
 import pastelLogo from '../assets/images/rosa_pastel_logo_completo-removebg-preview.png';
-import blancoLogo from '../assets/images/logo_completo_blanco-removebg-preview.png';
-import rosaLogo from '../assets/images/rosa_vivido_logo_completo-removebg-preview.png';
 
 export default function About() {
   useSceneObserver();

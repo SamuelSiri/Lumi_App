@@ -2,9 +2,9 @@ import { useEffect, useMemo, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import {
-  Heart, Wifi, Smile, Pill, Clock, AlertTriangle, Activity,
-  Dumbbell, UtensilsCrossed, MapPin, Send, Mic,
-  Thermometer, Bell, Sparkles, Trash2, Plus, Battery, TrendingUp,
+  Heart, Wifi, Pill, Clock, AlertTriangle, Activity,
+  Dumbbell, UtensilsCrossed, MapPin, Send,
+  Thermometer, Bell, Sparkles, Trash2, Plus, TrendingUp,
 } from 'lucide-react';
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,

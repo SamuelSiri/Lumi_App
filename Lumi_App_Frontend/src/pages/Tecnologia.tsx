@@ -1,8 +1,8 @@
 import { useRef } from 'react';
 import { motion, useInView, useScroll, useTransform } from 'framer-motion';
-import { Brain, Cpu, Eye, Zap, Activity, Wifi, Shield, MessageCircle, Lock, Heart } from 'lucide-react';
+import { Brain, Cpu, Eye, Zap, Activity, Wifi, Shield, MessageCircle, Lock } from 'lucide-react';
 import LumiCharacter from '../components/LumiCharacter';
-import { FadeIn, Parallax, AnimatedCounter, ease, SectionDivider, staggerContainer, staggerItem } from '../components/landing/motion';
+import { FadeIn, Parallax, AnimatedCounter, SectionDivider, staggerContainer, staggerItem } from '../components/landing/motion';
 
 const techStack = [
   { icon: Brain, title: 'Inteligencia Artificial Adaptativa', desc: 'Motor cognitivo que aprende patrones únicos de comportamiento para anticipar necesidades y detectar anomalías antes de que sean críticas.', color: 'rosa' },
@@ -22,11 +22,9 @@ const processPipeline = [
 
 export default function Tecnologia() {
   const heroRef = useRef(null);
-  const isHeroInView = useInView(heroRef, { once: false });
   const stackRef = useRef(null);
   const isStackInView = useInView(stackRef, { once: false, margin: '-80px' });
   const pipeRef = useRef(null);
-  const isPipeInView = useInView(pipeRef, { once: false, margin: '-80px' });
 
   // Hero parallax
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] });

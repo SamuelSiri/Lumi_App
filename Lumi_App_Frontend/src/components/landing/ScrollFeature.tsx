@@ -59,7 +59,6 @@ const steps = [
 
 function StepBlock({
   step,
-  index,
   isActive,
 }: {
   step: (typeof steps)[0];

@@ -5,8 +5,6 @@ import { C, BlobBG, Deco, MarqueeStrip, WaveDivider, Particles, PageHero, CTASec
 import rosaIcon from '../assets/images/rosa_vivido_icon-removebg-preview.png';
 import azulIcon from '../assets/images/icono_lumi_azul-removebg-preview.png';
 import pastelIcon from '../assets/images/rosapastelicon-removebg-preview.png';
-import pastelLogo from '../assets/images/rosa_pastel_logo_completo-removebg-preview.png';
-import blancoLogo from '../assets/images/logo_completo_blanco-removebg-preview.png';
 
 export default function HowItWorks() {
   useSceneObserver();
