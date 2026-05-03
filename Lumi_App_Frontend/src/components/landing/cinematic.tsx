@@ -110,7 +110,7 @@ export function PageHero({ label, title, accentWord, accent = C.rosa, theme = 'l
   const bg = theme === 'dark' ? C.dark : C.light;
   const textColor = theme === 'dark' ? C.white : C.dark;
   return (
-    <section className="scene is-visible relative min-h-[70vh] overflow-hidden flex items-end noise" style={{ background: bg }}>
+    <section className="scene is-visible relative min-h-[70vh] overflow-hidden flex items-end" style={{ background: bg }}>
       <BlobBG color={accent} opacity={0.04} className="w-[700px] h-[700px] -top-40 -right-40" />
       <Particles count={6} color={`${accent}20`} />
       <Deco style={{ top: '15%', right: '10%', color: textColor }}>✦</Deco>
@@ -142,7 +142,7 @@ export function CTASection({ headline, sub, linkTo = '/contact', linkLabel = 'Co
   headline: string; sub: string; linkTo?: string; linkLabel?: string;
 }) {
   return (
-    <section className="scene is-visible relative py-28 lg:py-40 overflow-hidden noise" style={{ background: C.dark }}>
+    <section className="scene is-visible relative py-28 lg:py-40 overflow-hidden" style={{ background: C.dark }}>
       <BlobBG color={C.rosa} opacity={0.03} className="w-[600px] h-[600px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
       <div className="relative z-10 max-w-4xl mx-auto px-6 lg:px-12 text-center">
         <div className="anim-scale-in delay-0 mx-auto mb-8" style={{ width: 8, height: 8, borderRadius: '50%', background: C.neon, boxShadow: `0 0 20px ${C.neon}60` }} />

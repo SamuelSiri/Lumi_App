@@ -104,7 +104,7 @@ export default function ForgotPassword() {
       </motion.div>
 
       {/* Noise */}
-      <div className="noise absolute inset-0 pointer-events-none" />
+      <div className="absolute inset-0 pointer-events-none" />
 
       {/* ═══ MAIN CONTENT ═══ */}
       <div className="relative z-10 min-h-screen flex items-center justify-center px-6 pt-28 pb-12 lg:pt-0">

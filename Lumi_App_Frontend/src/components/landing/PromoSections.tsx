@@ -373,9 +373,9 @@ export function RemoteMonitoring() {
                     {/* Vitals */}
                     <div className="grid grid-cols-2 gap-2 mb-4">
                       {[
-                        { label: 'Pulso', value: '72', unit: 'bpm', color: 'rosa' },
+                        { label: 'Charlas', value: '9', unit: 'hoy', color: 'rosa' },
                         { label: 'Temp', value: '36.5', unit: '°C', color: 'azul' },
-                        { label: 'O₂', value: '98', unit: '%', color: 'rosa' },
+                        { label: 'Calma', value: '98', unit: '%', color: 'rosa' },
                         { label: 'Pasos', value: '1,243', unit: '', color: 'azul' },
                       ].map((card) => (
                         <div key={card.label} className="bg-white/5 rounded-xl p-3">

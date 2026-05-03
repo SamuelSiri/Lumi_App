@@ -192,7 +192,7 @@ export default function TestimoniosPage() {
 
       {/* ── 5. Editorial Testimonials Grid (Dark) ── */}
       <section
-        className="scene relative py-28 lg:py-40 overflow-hidden noise"
+        className="scene relative py-28 lg:py-40 overflow-hidden"
         style={{ background: C.dark }}
       >
         <BlobBG

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import clsx from 'clsx';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Sparkles } from 'lucide-react';
 import negroLogo from '../../assets/images/logo_completo_negro-removebg-preview.png';
 
 const navLinks = [
@@ -10,7 +10,7 @@ const navLinks = [
   { label: 'Conoce Lumi', href: '/about' },
   { label: 'Cómo Funciona', href: '/how' },
   { label: 'Docs', href: '/docs' },
-  { label: 'Testimonios', href: '/testimonios' },
+  { label: 'Apoyar', href: '/apoyar' },
   { label: 'Contacto', href: '/contact' },
 ];
 
@@ -68,12 +68,23 @@ export default function Navbar() {
                 {link.label}
               </Link>
             ))}
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
+            <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
               <Link
                 to="/login"
-                className="ml-2 px-7 py-2.5 bg-rosa text-white text-[11px] font-bold uppercase tracking-[0.12em] rounded-full hover:bg-rosa-hover transition-colors duration-300"
+                className="ml-2 px-6 py-2.5 text-[11px] font-bold uppercase tracking-[0.12em] rounded-full transition-all duration-300"
+                style={{ background: 'transparent', color: '#FD4282', border: '1.5px solid #FD4282' }}
               >
                 Acceder
+              </Link>
+            </motion.div>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
+              <Link
+                to="/preorden"
+                className="px-7 py-2.5 bg-rosa text-white text-[11px] font-bold uppercase tracking-[0.12em] rounded-full hover:bg-rosa-hover transition-colors duration-300 inline-flex items-center gap-2"
+                style={{ animation: 'pulse-glow 2.6s ease-in-out infinite' }}
+              >
+                <Sparkles size={14} />
+                Pre-orden
               </Link>
             </motion.div>
           </div>
@@ -127,8 +138,19 @@ export default function Navbar() {
                 </Link>
               </motion.div>
               <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45, duration: 0.4 }}>
-                <Link to="/login" onClick={() => setMobileOpen(false)} className="mt-4 px-10 py-4 bg-rosa text-white text-lg font-bold rounded-full hover:bg-rosa-hover transition-colors">
+                <Link to="/login" onClick={() => setMobileOpen(false)} className="mt-4 px-10 py-4 text-lg font-bold rounded-full transition-colors" style={{ background: 'transparent', color: '#FD4282', border: '1.5px solid #FD4282' }}>
                   Acceder
+                </Link>
+              </motion.div>
+              <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.4 }}>
+                <Link
+                  to="/preorden"
+                  onClick={() => setMobileOpen(false)}
+                  className="mt-3 px-10 py-4 bg-rosa text-white text-lg font-bold rounded-full hover:bg-rosa-hover transition-colors inline-flex items-center gap-3"
+                  style={{ animation: 'pulse-glow 2.6s ease-in-out infinite' }}
+                >
+                  <Sparkles size={18} />
+                  Pre-orden
                 </Link>
               </motion.div>
             </nav>

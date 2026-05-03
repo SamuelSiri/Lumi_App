@@ -6,7 +6,10 @@ import HowItWorks from './pages/HowItWorks';
 import DocsPage from './pages/DocsPage';
 import ContactPage from './pages/ContactPage';
 import TermsPage from './pages/TermsPage';
+import PrivacidadPage from './pages/PrivacidadPage';
 import TestimoniosPage from './pages/TestimoniosPage';
+import Apoyar from './pages/Apoyar';
+import Preorden from './pages/Preorden';
 import Tecnologia from './pages/Tecnologia';
 import Familia from './pages/Familia';
 import Seguridad from './pages/Seguridad';
@@ -26,6 +29,7 @@ import Calendar from './pages/Calendar';
 import AlertsCenter from './pages/AlertsCenter';
 import DeviceSettings from './pages/DeviceSettings';
 import FamilyManagement from './pages/FamilyManagement';
+import Perfil from './pages/Perfil';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -48,7 +52,10 @@ function App() {
           <Route path="/docs" element={<DocsPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/terms" element={<TermsPage />} />
+          <Route path="/privacidad" element={<PrivacidadPage />} />
           <Route path="/testimonios" element={<TestimoniosPage />} />
+          <Route path="/apoyar" element={<Apoyar />} />
+          <Route path="/preorden" element={<Preorden />} />
           {/* Legacy product pages */}
           <Route path="/tecnologia" element={<Tecnologia />} />
           <Route path="/familia" element={<Familia />} />
@@ -73,6 +80,7 @@ function App() {
           <Route path="alertas" element={<AlertsCenter />} />
           <Route path="dispositivo" element={<DeviceSettings />} />
           <Route path="familia" element={<FamilyManagement />} />
+          <Route path="perfil" element={<Perfil />} />
         </Route>
       </Routes>
     </BrowserRouter>

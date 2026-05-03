@@ -12,7 +12,7 @@ import pastelLogo from '../assets/images/rosa_pastel_logo_completo-removebg-prev
 /* ═══ DATA ═══ */
 const capabilities = [
   { title: 'Compania Emocional', desc: 'Conversaciones empaticas, musica, cuentos y juegos cognitivos. Presente cuando la familia no puede estar.', accent: C.rosa, rotate: '-1.5deg' },
-  { title: 'Monitoreo de Salud', desc: 'Signos vitales en tiempo real: frecuencia cardiaca, temperatura, oxigenacion. Deteccion de anomalias 24/7.', accent: C.azul, rotate: '1deg' },
+  { title: 'Cuidado discreto', desc: 'Atenta a la temperatura, al movimiento y al entorno. Sin invadir, sin alarmar — solo presente cuando hace falta.', accent: C.azul, rotate: '1deg' },
   { title: 'Deteccion de Caidas', desc: 'Sensores de alta precision que detectan caidas al instante. Alerta inmediata a familiares con ubicacion exacta.', accent: C.rosa, rotate: '-0.5deg' },
   { title: 'Alertas de Entorno', desc: 'Detecta movimiento, temperatura extrema y humo. Reacciona ante situaciones de riesgo antes de que escalen.', accent: C.neon, rotate: '1.5deg' },
   { title: 'Boton SOS', desc: 'Un solo toque envia alerta de emergencia con ubicacion GPS a todos los contactos. Respuesta en segundos.', accent: C.rosa, rotate: '-1deg' },
@@ -144,7 +144,7 @@ export default function Landing() {
       {/* ═══════════════════════════════════════════════════════════
           SCENE 2 — MARQUEE + MESSAGE (dark) — giant scrolling text
           ═══════════════════════════════════════════════════════════ */}
-      <section className="scene relative min-h-screen overflow-hidden flex items-center justify-center noise" style={{ background: C.dark }}>
+      <section className="scene relative min-h-screen overflow-hidden flex items-center justify-center" style={{ background: C.dark }}>
         <BlobBG color={C.rosa} opacity={0.03} className="w-[900px] h-[900px] -top-60 -right-60" />
         <Deco style={{ top: '8%', left: '5%', color: C.rosa }}>&#x2726;</Deco>
         <Deco style={{ bottom: '12%', right: '10%', color: C.azul }}>&#x25C8;</Deco>
@@ -214,7 +214,7 @@ export default function Landing() {
       {/* ═══════════════════════════════════════════════════════════
           SCENE 4 — IMPACT QUOTE (dark) — word in NEON GREEN
           ═══════════════════════════════════════════════════════════ */}
-      <section className="scene relative min-h-screen overflow-hidden flex items-center justify-center noise" style={{ background: C.dark }}>
+      <section className="scene relative min-h-screen overflow-hidden flex items-center justify-center" style={{ background: C.dark }}>
         <BlobBG color={C.azul} opacity={0.03} className="w-[800px] h-[800px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
         <Deco style={{ top: '12%', left: '8%', color: C.rosa }}>&#x2726;</Deco>
         <Deco style={{ top: '20%', right: '15%', color: C.neon }}>&#x25C6;</Deco>
@@ -294,7 +294,7 @@ export default function Landing() {
       {/* ═══════════════════════════════════════════════════════════
           SCENE 6 — COMO FUNCIONA: 3 steps (dark)
           ═══════════════════════════════════════════════════════════ */}
-      <section className="relative noise" style={{ background: C.dark }}>
+      <section className="relative" style={{ background: C.dark }}>
         <div className="scene relative py-20 lg:py-28 overflow-hidden">
           <BlobBG color={C.rosa} opacity={0.03} className="w-[700px] h-[700px] -top-40 -left-40" />
           <Deco style={{ top: '10%', right: '8%', fontSize: 10, letterSpacing: '0.15em', color: C.grey }}>006</Deco>
@@ -423,7 +423,7 @@ export default function Landing() {
       {/* ═══════════════════════════════════════════════════════════
           SCENE 9 — PARA QUIEN: 3 cinematic panels (dark)
           ═══════════════════════════════════════════════════════════ */}
-      <section className="relative noise" style={{ background: C.dark }}>
+      <section className="relative" style={{ background: C.dark }}>
         <div className="scene relative py-20 lg:py-28 overflow-hidden">
           <BlobBG color={C.azul} opacity={0.03} className="w-[700px] h-[700px] -top-40 -left-40" />
           <Deco style={{ top: '10%', right: '8%', fontSize: 10, letterSpacing: '0.15em', color: C.grey }}>009</Deco>
@@ -480,7 +480,7 @@ export default function Landing() {
       {/* ═══════════════════════════════════════════════════════════
           SCENE 11 — TESTIMONIOS PREVIEW (dark)
           ═══════════════════════════════════════════════════════════ */}
-      <section className="scene relative overflow-hidden py-24 lg:py-36 noise" style={{ background: C.dark }}>
+      <section className="scene relative overflow-hidden py-24 lg:py-36" style={{ background: C.dark }}>
         <BlobBG color={C.rosa} opacity={0.03} className="w-[600px] h-[600px] -top-20 -right-20" />
         <Deco style={{ top: '8%', left: '5%', fontSize: 10, color: C.grey }}>011</Deco>
 
@@ -520,7 +520,7 @@ export default function Landing() {
       {/* ═══════════════════════════════════════════════════════════
           SCENE 12 — CTA / FOOTER (dark)
           ═══════════════════════════════════════════════════════════ */}
-      <section className="scene relative min-h-screen overflow-hidden flex flex-col justify-center noise" style={{ background: C.dark }}>
+      <section className="scene relative min-h-screen overflow-hidden flex flex-col justify-center" style={{ background: C.dark }}>
         <BlobBG color={C.rosa} opacity={0.04} className="w-[800px] h-[800px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none"><img src={blancoLogo} alt="" className="w-[500px] h-auto opacity-[0.02]" /></div>
         <div className="absolute pointer-events-none" style={{ width: 400, height: 400, borderRadius: '50%', border: `1px solid ${C.rosa}10`, top: '10%', right: '-5%', animation: 'spin-slow 40s linear infinite' }} />
@@ -547,7 +547,7 @@ export default function Landing() {
             ))}
           </div>
           <div className="anim-reveal-up delay-6 mt-16">
-            <a href="mailto:hola@lumi.tech" data-hover className="text-2xl lg:text-4xl font-light transition-colors duration-300" style={{ color: `${C.white}25` }} onMouseEnter={e => { e.currentTarget.style.color = C.rosa; }} onMouseLeave={e => { e.currentTarget.style.color = `${C.white}25`; }}>hola@lumi.tech</a>
+            <a href="mailto:holalumi.info@gmail.com" data-hover className="text-2xl lg:text-4xl font-light transition-colors duration-300" style={{ color: `${C.white}25` }} onMouseEnter={e => { e.currentTarget.style.color = C.rosa; }} onMouseLeave={e => { e.currentTarget.style.color = `${C.white}25`; }}>holalumi.info@gmail.com</a>
           </div>
         </div>
       </section>

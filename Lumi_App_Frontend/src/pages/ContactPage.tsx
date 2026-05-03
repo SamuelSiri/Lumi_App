@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react';
+import { MessageCircle } from 'lucide-react';
 import {
   C,
   BlobBG,
@@ -8,6 +9,10 @@ import {
   PageHero,
   useSceneObserver,
 } from '../components/landing/cinematic';
+
+const WA_PHONE = '18498282023';
+const WA_MESSAGE = 'Hola LUMI 👋 Quiero hablar con ustedes.';
+const WA_URL = `https://wa.me/${WA_PHONE}?text=${encodeURIComponent(WA_MESSAGE)}`;
 
 export default function ContactPage() {
   useSceneObserver();
@@ -93,13 +98,13 @@ export default function ContactPage() {
               </p>
 
               <a
-                href="mailto:business@lumi.com"
+                href="mailto:holalumi.info@gmail.com"
                 className="anim-reveal-up delay-1 block text-2xl lg:text-4xl font-light mb-14 transition-colors duration-300"
                 style={{ color: `${C.dark}80`, textDecoration: 'none' }}
                 onMouseEnter={(e) => { e.currentTarget.style.color = C.rosa; }}
                 onMouseLeave={(e) => { e.currentTarget.style.color = `${C.dark}80`; }}
               >
-                business@lumi.com
+                holalumi.info@gmail.com
               </a>
 
               <form onSubmit={handleSubmit} className="space-y-8">
@@ -142,7 +147,7 @@ export default function ContactPage() {
                   />
                 </div>
 
-                <div className="anim-reveal-up delay-5 pt-4">
+                <div className="anim-reveal-up delay-5 pt-4 flex flex-wrap items-center gap-4">
                   <button
                     type="submit"
                     className="inline-flex items-center justify-center px-10 py-4 rounded-full text-base font-bold uppercase tracking-[0.08em] transition-all duration-300"
@@ -163,27 +168,48 @@ export default function ContactPage() {
                   >
                     {contactSent ? '✓ ENVIADO' : 'Enviar mensaje'}
                   </button>
+
+                  <span className="text-[10px] uppercase tracking-[0.2em]" style={{ color: C.grey }}>o</span>
+
+                  <a
+                    href={WA_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-base font-bold uppercase tracking-[0.08em] transition-all duration-300 hover:scale-[1.05]"
+                    style={{
+                      background: 'transparent',
+                      color: C.dark,
+                      border: `1.5px solid ${C.dark}`,
+                    }}
+                  >
+                    <MessageCircle size={18} style={{ color: '#25D366' }} />
+                    WhatsApp
+                  </a>
                 </div>
               </form>
 
-              {/* Location labels */}
-              <div className="anim-reveal-up delay-6 mt-16 flex gap-10">
-                <div>
-                  <span
-                    className="text-[10px] font-bold uppercase tracking-[0.2em]"
-                    style={{ color: C.grey }}
-                  >
-                    Ciudad de México
-                  </span>
-                </div>
-                <div>
-                  <span
-                    className="text-[10px] font-bold uppercase tracking-[0.2em]"
-                    style={{ color: C.grey }}
-                  >
-                    Santo Domingo
-                  </span>
-                </div>
+              {/* Quick contacts — IG + phone */}
+              <div className="anim-reveal-up delay-6 mt-16 flex flex-wrap gap-x-10 gap-y-4">
+                <a
+                  href="https://instagram.com/heylumi.co"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[10px] font-bold uppercase tracking-[0.2em] transition-colors duration-200"
+                  style={{ color: C.grey }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = C.rosa; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = C.grey; }}
+                >
+                  @heylumi.co
+                </a>
+                <a
+                  href="tel:+18498282023"
+                  className="text-[10px] font-bold uppercase tracking-[0.2em] transition-colors duration-200"
+                  style={{ color: C.grey }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = C.rosa; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = C.grey; }}
+                >
+                  +1 849 828 2023
+                </a>
               </div>
             </div>
           </div>
@@ -192,7 +218,7 @@ export default function ContactPage() {
 
       {/* ─── 4. Direct email — dark section ─── */}
       <section
-        className="scene relative overflow-hidden noise"
+        className="scene relative overflow-hidden"
         style={{ background: C.dark }}
       >
         <BlobBG color={C.rosa} opacity={0.04} className="w-[800px] h-[800px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
@@ -209,7 +235,7 @@ export default function ContactPage() {
             También puedes escribirnos directamente a
           </p>
           <a
-            href="mailto:business@lumi.com"
+            href="mailto:holalumi.info@gmail.com"
             className="anim-reveal-up delay-1 inline-block transition-colors duration-300"
             style={{
               fontSize: 'clamp(28px, 5vw, 72px)',
@@ -222,7 +248,7 @@ export default function ContactPage() {
             onMouseEnter={(e) => { e.currentTarget.style.color = C.rosa; }}
             onMouseLeave={(e) => { e.currentTarget.style.color = C.white; }}
           >
-            business@lumi.com
+            holalumi.info@gmail.com
           </a>
         </div>
       </section>

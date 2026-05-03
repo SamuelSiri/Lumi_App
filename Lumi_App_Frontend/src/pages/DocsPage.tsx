@@ -77,7 +77,7 @@ export default function DocsPage() {
       {/* ═══════════════════════════════════════════════════
           GUÍAS PRINCIPALES — tilted cards (dark)
           ═══════════════════════════════════════════════════ */}
-      <section className="scene relative overflow-hidden py-28 lg:py-40 noise" style={{ background: C.dark }}>
+      <section className="scene relative overflow-hidden py-28 lg:py-40" style={{ background: C.dark }}>
         <BlobBG color={C.azul} opacity={0.04} className="w-[800px] h-[800px] -bottom-40 -right-40" />
         <Particles count={6} color={`${C.azul}15`} />
         <Deco style={{ top: '8%', left: '5%', color: C.rosa }}>&#x2726;</Deco>
@@ -189,7 +189,7 @@ export default function DocsPage() {
       {/* ═══════════════════════════════════════════════════
           PREGUNTAS FRECUENTES (dark)
           ═══════════════════════════════════════════════════ */}
-      <section className="scene relative overflow-hidden py-28 lg:py-40 noise" style={{ background: C.dark }}>
+      <section className="scene relative overflow-hidden py-28 lg:py-40" style={{ background: C.dark }}>
         <BlobBG color={C.rosa} opacity={0.03} className="w-[800px] h-[800px] -top-40 -right-40" />
         <Particles count={6} color={`${C.rosa}15`} />
         <Deco style={{ top: '8%', left: '5%', color: C.rosa }}>&#x2726;</Deco>
@@ -274,7 +274,7 @@ export default function DocsPage() {
       {/* ═══════════════════════════════════════════════════
           IMPACT QUOTE (dark)
           ═══════════════════════════════════════════════════ */}
-      <section className="scene relative min-h-[50vh] overflow-hidden flex items-center justify-center noise" style={{ background: C.dark }}>
+      <section className="scene relative min-h-[50vh] overflow-hidden flex items-center justify-center" style={{ background: C.dark }}>
         <BlobBG color={C.rosa} opacity={0.03} className="w-[700px] h-[700px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
         <svg className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none" viewBox="0 0 600 200" fill="none" style={{ width: '80%', maxWidth: 700, height: 'auto', opacity: 0.04 }}>
           <path d="M20 160C80 40 150 20 220 80C290 140 260 180 330 100C400 20 440 60 500 120C560 180 580 80 580 80" stroke={C.rosa} strokeWidth="3" strokeLinecap="round" fill="none" />

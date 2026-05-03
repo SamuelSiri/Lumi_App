@@ -64,6 +64,7 @@
 @keyframes clipRevealUp { from { clip-path: inset(100% 0 0 0); } to { clip-path: inset(0 0 0 0); } }
 @keyframes fadeInUp { from { transform: translateY(40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 @keyframes pulse-glow { 0%,100% { box-shadow: 0 0 20px rgba(253,66,130,0.3); } 50% { box-shadow: 0 0 50px rgba(253,66,130,0.6), 0 0 100px rgba(253,66,130,0.2); } }
+@keyframes pulse-glow-neon { 0%,100% { box-shadow: 0 0 24px rgba(57,255,20,0.5), 0 0 50px rgba(57,255,20,0.2); } 50% { box-shadow: 0 0 40px rgba(57,255,20,0.8), 0 0 90px rgba(57,255,20,0.35); } }
 @keyframes pulse-soft { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.55; transform: scale(0.92); } }
 @keyframes pulse-ring { 0% { transform: scale(0.8); opacity: 0.6; } 100% { transform: scale(2.4); opacity: 0; } }
 @keyframes dash-move { to { stroke-dashoffset: -40; } }

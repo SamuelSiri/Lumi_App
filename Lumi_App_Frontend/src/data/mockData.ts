@@ -23,7 +23,6 @@ export const dispositivoLumi: DispositivoLumi = {
   ubicacion: { lat: 19.4326, lng: -99.1332 },
   nivelEmocional: 'feliz',
   sensores: {
-    ritmoCardiaco: 72,
     temperatura: 36.5,
     movimiento: true,
     caida: false,
@@ -90,8 +89,8 @@ export const recordatorios: Recordatorio[] = [
 export const alertas: Alerta[] = [
   {
     id: 'a1',
-    titulo: 'Ritmo cardíaco elevado',
-    descripcion: 'Se detectó un ritmo cardíaco de 105 bpm durante 15 minutos. Lumi activó el modo de monitoreo continuo.',
+    titulo: 'Sin actividad detectada',
+    descripcion: 'No se detectó movimiento durante 2 horas. Lumi inició modo de monitoreo discreto y envió un saludo cálido.',
     timestamp: '2026-03-23T14:23:00',
     gravedad: 'alta',
     leida: false,
@@ -290,10 +289,10 @@ export function generarDatosSalud(): DatosSalud[] {
     const hora = `${i.toString().padStart(2, '0')}:00`;
     datos.push({
       hora,
-      ritmoCardiaco: 65 + Math.floor(Math.random() * 25),
       temperatura: 36.2 + Math.random() * 0.8,
       pasos: i >= 7 && i <= 21 ? Math.floor(Math.random() * 500) : Math.floor(Math.random() * 30),
       calorias: i >= 7 && i <= 21 ? Math.floor(Math.random() * 80) : Math.floor(Math.random() * 10),
+      interacciones: i >= 7 && i <= 21 ? Math.floor(Math.random() * 12) + 1 : Math.floor(Math.random() * 2),
     });
   }
   return datos;
@@ -301,8 +300,8 @@ export function generarDatosSalud(): DatosSalud[] {
 
 export const notificaciones: Notificacion[] = [
   {
-    id: 'n1', titulo: 'Ritmo cardíaco elevado',
-    mensaje: 'Se detectó un ritmo de 105 bpm. Monitoreo activo.',
+    id: 'n1', titulo: 'Sin actividad detectada',
+    mensaje: '2 horas sin movimiento. LUMI envió un saludo cálido.',
     timestamp: '2026-03-23T14:23:00', leida: false, tipo: 'alerta',
   },
   {

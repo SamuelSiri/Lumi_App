@@ -10,15 +10,17 @@ const columns = [
     { label: 'Documentación', href: '/docs' },
   ]},
   { title: 'Empresa', links: [
-    { label: 'Testimonios', href: '/testimonios' },
+    { label: 'Apoyar', href: '/apoyar' },
+    { label: 'Pre-orden', href: '/preorden' },
     { label: 'Contacto', href: '/contact' },
   ]},
   { title: 'Legal', links: [
     { label: 'Términos y Condiciones', href: '/terms' },
-    { label: 'Privacidad', href: '/terms' },
+    { label: 'Privacidad', href: '/privacidad' },
   ]},
   { title: 'Contacto', links: [
-    { label: 'business@lumi.com', href: 'mailto:business@lumi.com' },
+    { label: 'holalumi.info@gmail.com', href: 'mailto:holalumi.info@gmail.com' },
+    { label: '+1 849 828 2023', href: 'tel:+18498282023' },
   ]},
 ];
 

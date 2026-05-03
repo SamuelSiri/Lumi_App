@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
-import { Activity, Heart, Thermometer, Wind, BarChart3, Clock, Smartphone, Bell, Footprints } from 'lucide-react';
+import { Activity, Thermometer, Wind, BarChart3, Clock, Smartphone, Bell, Footprints } from 'lucide-react';
 import {
   FadeIn,
   Parallax,
@@ -13,7 +13,6 @@ import {
 import LumiCharacter from '../components/LumiCharacter';
 
 const vitals = [
-  { icon: Heart, label: 'Frecuencia cardíaca', value: 72, suffix: ' bpm', status: 'Normal', color: 'rosa' as const },
   { icon: Thermometer, label: 'Temperatura', value: 365, suffix: '.°C', prefix: '', status: 'Normal', color: 'azul' as const },
   { icon: Wind, label: 'Oxigenación', value: 98, suffix: '%', status: 'Óptimo', color: 'rosa' as const },
   { icon: Footprints, label: 'Actividad', value: 1243, suffix: ' pasos', status: 'Activo', color: 'azul' as const },

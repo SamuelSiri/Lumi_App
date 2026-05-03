@@ -66,7 +66,7 @@ export default function Login() {
           style={{ background: P.cream }}
         >
           {/* Noise overlay */}
-          <div className="noise absolute inset-0 pointer-events-none" />
+          <div className="absolute inset-0 pointer-events-none" />
 
           {/* Floating CSS blobs */}
           {blobs.map((b, i) => (

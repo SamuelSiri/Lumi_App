@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import FloatingNav from './FloatingNav';
 import rosaLogo from '../../assets/images/rosa_vivido_logo_completo-removebg-preview.png';
 import rosaIcon from '../../assets/images/rosa_vivido_icon-removebg-preview.png';
@@ -18,16 +18,16 @@ export default function AppLayout() {
               <div className="w-2 h-2 rounded-full" style={{ background: '#22C55E', animation: 'pulse-soft 2s ease-in-out infinite' }} />
               <span className="text-[10px] font-bold uppercase tracking-[0.1em]" style={{ color: '#22C55E' }}>En línea</span>
             </div>
-            {/* User */}
-            <div className="flex items-center gap-2.5">
+            {/* User → Perfil */}
+            <Link to="/app/perfil" className="flex items-center gap-2.5 group">
               <div className="text-right hidden sm:block">
-                <p className="text-[11px] font-black uppercase tracking-[0.15em]" style={{ color: '#0a0a12' }}>Demo Emprendimiento</p>
+                <p className="text-[11px] font-black uppercase tracking-[0.15em] transition-colors duration-200 group-hover:text-rosa" style={{ color: '#0a0a12' }}>Demo Emprendimiento</p>
                 <p className="text-[9px] font-bold uppercase tracking-[0.2em]" style={{ color: '#8a8a8a' }}>Administrador</p>
               </div>
-              <div className="w-9 h-9 rounded-full flex items-center justify-center text-white text-[10px] font-black tracking-wider" style={{ background: '#FD4282', boxShadow: '0 4px 12px rgba(253,66,130,0.3)' }}>
+              <div className="w-9 h-9 rounded-full flex items-center justify-center text-white text-[10px] font-black tracking-wider transition-transform duration-200 group-hover:scale-110" style={{ background: '#FD4282', boxShadow: '0 4px 12px rgba(253,66,130,0.3)' }}>
                 DE
               </div>
-            </div>
+            </Link>
           </div>
         </div>
       </header>

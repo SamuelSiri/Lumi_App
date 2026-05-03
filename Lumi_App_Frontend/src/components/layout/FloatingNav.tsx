@@ -2,7 +2,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   LayoutDashboard, Heart, Calendar, Bell,
-  Settings, Users, LogOut,
+  Settings, Users, User, LogOut,
 } from 'lucide-react';
 import rosaIcon from '../../assets/images/rosa_vivido_icon-removebg-preview.png';
 
@@ -13,6 +13,7 @@ const items = [
   { icon: Bell, to: '/app/alertas', label: 'Alertas' },
   { icon: Settings, to: '/app/dispositivo', label: 'Dispositivo' },
   { icon: Users, to: '/app/familia', label: 'Familia' },
+  { icon: User, to: '/app/perfil', label: 'Perfil' },
 ];
 
 const rosa = '#FD4282';

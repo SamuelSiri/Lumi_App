@@ -63,10 +63,10 @@ export default function HowItWorks() {
                 Tan natural como <span className="italic" style={{ fontWeight: 400, color: C.rosa }}>conversar</span>
               </h2>
               <p className="anim-reveal-up delay-2 mt-6 text-base lg:text-lg leading-relaxed max-w-lg" style={{ color: C.grey }}>
-                No necesitas aprender comandos, descargar apps ni configurar nada complicado. LUMI funciona con lo más natural que tienes: <strong style={{ color: C.dark }}>tu voz</strong>. Le hablas como le hablarías a alguien de confianza, y ella responde con claridad, calidez y contexto.
+                No necesitas aprender comandos ni configurar nada complicado. LUMI funciona con lo más natural que tienes: <strong style={{ color: C.dark }}>tu voz</strong>. Le hablas como le hablarías a alguien de confianza, y ella responde con claridad, calidez y contexto.
               </p>
               <p className="anim-reveal-up delay-3 mt-4 text-base leading-relaxed max-w-lg" style={{ color: C.grey }}>
-                Todo el procesamiento ocurre de forma invisible. Tú solo hablas. LUMI se encarga del resto.
+                Y mientras tú no le hablas, ella sigue ahí — <strong style={{ color: C.dark }}>monitoreando siempre</strong>. Pendiente del entorno, atenta a lo que pase. Tú solo vives. LUMI se encarga del resto.
               </p>
             </div>
           </div>
@@ -78,7 +78,7 @@ export default function HowItWorks() {
       {/* ═══════════════════════════════════════════════════
           PASO 01 — HABLA (dark)
           ═══════════════════════════════════════════════════ */}
-      <section className="scene relative min-h-screen overflow-hidden flex items-center noise" style={{ background: C.dark }}>
+      <section className="scene relative min-h-screen overflow-hidden flex items-center" style={{ background: C.dark }}>
         <BlobBG color={C.rosa} opacity={0.04} className="w-[900px] h-[900px] -top-60 -left-60" />
         <Particles count={8} color={`${C.rosa}18`} />
         <Deco style={{ top: '12%', right: '6%' }}>&#x2726;</Deco>
@@ -135,7 +135,7 @@ export default function HowItWorks() {
                 LUMI <span style={{ color: C.azul }}>procesa</span>
               </h2>
               <p className="anim-reveal-up delay-2 mt-6 text-base lg:text-lg leading-relaxed max-w-md" style={{ color: C.grey }}>
-                Tu voz se convierte en texto, viaja de forma cifrada a un sistema inteligente en la nube y se analiza en milisegundos. La inteligencia artificial interpreta lo que dijiste, entiende el contexto y genera la mejor respuesta posible — todo esto sin que tú notes el proceso.
+                Tu voz se convierte en texto, viaja de forma cifrada a un sistema inteligente en la nube y se analiza en milisegundos. El sistema de LUMI interpreta lo que dijiste, entiende el contexto y genera la mejor respuesta posible — todo esto sin que tú notes el proceso.
               </p>
               <div className="anim-reveal-up delay-3 mt-8 flex items-center gap-4">
                 <div className="w-11 h-11 rounded-xl flex items-center justify-center" style={{ background: `${C.azul}12` }}>
@@ -153,7 +153,7 @@ export default function HowItWorks() {
       {/* ═══════════════════════════════════════════════════
           PASO 03 — RESPONDE (dark)
           ═══════════════════════════════════════════════════ */}
-      <section className="scene relative min-h-screen overflow-hidden flex items-center noise" style={{ background: C.dark }}>
+      <section className="scene relative min-h-screen overflow-hidden flex items-center" style={{ background: C.dark }}>
         <BlobBG color={C.neon} opacity={0.03} className="w-[850px] h-[850px] -top-40 -right-60" />
         <Particles count={8} color={`${C.neon}15`} />
         <Deco style={{ top: '14%', left: '10%' }}>&#x25C8;</Deco>
@@ -169,7 +169,7 @@ export default function HowItWorks() {
                 LUMI <span style={{ color: C.neon }}>responde</span>
               </h2>
               <p className="anim-reveal-up delay-2 mt-6 text-base lg:text-lg leading-relaxed max-w-md" style={{ color: C.grey }}>
-                LUMI te habla con una voz clara y cálida. Mientras lo hace, su rostro LED cambia de expresión para que sepas que te está escuchando, pensando o respondiendo. No es una pantalla fría — es una presencia que se comunica de forma humana e intuitiva.
+                LUMI te habla con una voz clara y cálida. Mientras lo hace, su rostro LED cambia de expresión para que sepas que te está escuchando, pensando o respondiendo.
               </p>
               <div className="anim-reveal-up delay-3 mt-8 flex items-center gap-4">
                 <div className="w-11 h-11 rounded-xl flex items-center justify-center" style={{ background: `${C.neon}12` }}>
@@ -229,7 +229,7 @@ export default function HowItWorks() {
       {/* ═══════════════════════════════════════════════════
           PASO 05 — INFORMA (dark)
           ═══════════════════════════════════════════════════ */}
-      <section className="scene relative min-h-screen overflow-hidden flex items-center noise" style={{ background: C.dark }}>
+      <section className="scene relative min-h-screen overflow-hidden flex items-center" style={{ background: C.dark }}>
         <BlobBG color={C.azul} opacity={0.04} className="w-[800px] h-[800px] -bottom-40 -right-40" />
         <Particles count={6} color={`${C.azul}15`} />
         <Deco style={{ top: '10%', left: '6%', color: C.azul }}>&#x2726;</Deco>
@@ -302,7 +302,7 @@ export default function HowItWorks() {
       {/* ═══════════════════════════════════════════════════
           IMPACT QUOTE (dark)
           ═══════════════════════════════════════════════════ */}
-      <section className="scene relative min-h-[60vh] overflow-hidden flex items-center justify-center noise" style={{ background: C.dark }}>
+      <section className="scene relative min-h-[60vh] overflow-hidden flex items-center justify-center" style={{ background: C.dark }}>
         <BlobBG color={C.rosa} opacity={0.03} className="w-[800px] h-[800px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
         {/* Scribble */}
         <svg className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none" viewBox="0 0 600 200" fill="none" style={{ width: '80%', maxWidth: 700, height: 'auto', opacity: 0.04 }}>

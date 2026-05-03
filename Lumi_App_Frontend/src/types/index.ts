@@ -18,7 +18,6 @@ export interface DispositivoLumi {
   ubicacion?: { lat: number; lng: number };
   nivelEmocional: 'feliz' | 'neutral' | 'triste' | 'preocupado';
   sensores: {
-    ritmoCardiaco: number;
     temperatura: number;
     movimiento: boolean;
     caida: boolean;
@@ -112,10 +111,10 @@ export interface ConfiguracionDispositivo {
 
 export interface DatosSalud {
   hora: string;
-  ritmoCardiaco: number;
   temperatura: number;
   pasos: number;
   calorias: number;
+  interacciones: number;
 }
 
 export interface Notificacion {

@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Heart, Shield, Eye, Radio, Cpu, Lightbulb, Users, Home } from 'lucide-react';
+import { Heart, Eye, Users, Home, Volume2, AlertTriangle, Moon, Move, Thermometer, Flame, ShieldAlert } from 'lucide-react';
 import { C, BlobBG, Deco, MarqueeStrip, WaveDivider, Particles, PageHero, CTASection, useSceneObserver } from '../components/landing/cinematic';
 
 import rosaIcon from '../assets/images/rosa_vivido_icon-removebg-preview.png';
@@ -39,7 +39,7 @@ export default function About() {
       <MarqueeStrip />
 
       {/* ═══ 2. QUÉ ES LUMI — editorial split (dark) ═══ */}
-      <section className="scene relative overflow-hidden noise" style={{ background: C.dark }}>
+      <section className="scene relative overflow-hidden" style={{ background: C.dark }}>
         <BlobBG color={C.azul} opacity={0.05} className="w-[900px] h-[900px] -top-60 -left-60" />
         <Particles count={8} color={`${C.rosa}18`} />
         <Deco style={{ top: '12%', right: '6%' }}>&#x2726;</Deco>
@@ -53,9 +53,9 @@ export default function About() {
           </div>
           {/* Right — text */}
           <div className="lg:w-2/3 max-w-2xl">
-            <p className="anim-reveal-up delay-0 text-[10px] font-bold uppercase tracking-[0.3em] mb-6" style={{ color: C.rosa }}>El Dispositivo</p>
+            <p className="anim-reveal-up delay-0 text-[10px] font-bold uppercase tracking-[0.3em] mb-6" style={{ color: C.rosa }}>Mi razón de ser</p>
             <h2 className="anim-reveal-up delay-1" style={{ fontSize: 'clamp(28px, 5vw, 64px)', fontWeight: 900, lineHeight: 0.95, letterSpacing: '-0.04em', textTransform: 'uppercase', color: C.white }}>
-              No es solo <span className="italic" style={{ fontWeight: 400, color: C.rosa }}>tecnología.</span> Es <span style={{ color: C.neon }}>presencia.</span>
+              Que nadie <span className="italic" style={{ fontWeight: 400, color: C.rosa }}>esté solo.</span> Que nadie se <span style={{ color: C.neon }}>sienta solo.</span>
             </h2>
             <p className="anim-reveal-up delay-2 mt-8 text-base lg:text-lg leading-relaxed" style={{ color: C.grey }}>
               LUMI es un dispositivo inteligente diseñado para <strong style={{ color: C.white }}>acompañar, cuidar y asistir</strong> a personas en su día a día — especialmente niños, adultos mayores y personas con alguna condición o discapacidad. No es solo un aparato tecnológico, es una presencia constante que busca brindar tranquilidad tanto al usuario como a sus familiares.
@@ -107,17 +107,27 @@ export default function About() {
                 Las expresiones de LUMI cambian según su estado: escuchando, hablando, en alerta, en reposo, entre otros. Esto permite una interacción más humana y fácil de entender, especialmente para niños y adultos mayores.
               </p>
               {/* Expression states */}
-              <div className="anim-reveal-up delay-3 mt-10 grid grid-cols-2 gap-4">
+              <div className="anim-reveal-up delay-3 mt-10 grid grid-cols-2 gap-5">
                 {[
-                  { label: 'Escuchando', desc: 'Ojos abiertos, brillo suave', color: C.azul },
-                  { label: 'Hablando', desc: 'Boca animada, pulso rítmico', color: C.rosa },
-                  { label: 'En Alerta', desc: 'Parpadeo rojo, tono urgente', color: '#EF4444' },
-                  { label: 'En Reposo', desc: 'Brillo tenue, respiración suave', color: C.neon },
+                  { Icon: Eye, label: 'Escuchando', desc: 'Ojos abiertos, brillo suave', color: C.azul },
+                  { Icon: Volume2, label: 'Hablando', desc: 'Boca animada, pulso rítmico', color: C.rosa },
+                  { Icon: AlertTriangle, label: 'En Alerta', desc: 'Parpadeo rojo, tono urgente', color: '#EF4444' },
+                  { Icon: Moon, label: 'En Reposo', desc: 'Brillo tenue, respiración suave', color: C.neon },
                 ].map((expr, i) => (
-                  <div key={expr.label} className={`anim-reveal-up delay-${Math.min(i + 4, 7)} rounded-xl p-4 border transition-all duration-300 hover:scale-[1.03]`} style={{ borderColor: `${C.dark}08`, background: `${C.white}80` }}>
-                    <div className="w-3 h-3 rounded-full mb-3" style={{ background: expr.color }} />
-                    <p className="text-xs font-bold uppercase tracking-[0.08em]" style={{ color: C.dark }}>{expr.label}</p>
-                    <p className="text-[10px] mt-1" style={{ color: C.grey }}>{expr.desc}</p>
+                  <div key={expr.label} className={`group anim-reveal-up delay-${Math.min(i + 4, 7)} relative rounded-2xl p-5 lg:p-6 border-2 transition-all duration-300 hover:scale-[1.04] overflow-hidden`} style={{ borderColor: `${expr.color}25`, background: C.white }}>
+                    {/* Pulsing live indicator */}
+                    <span className="absolute top-4 right-4 flex items-center justify-center" style={{ width: 10, height: 10 }}>
+                      <span className="absolute inline-flex w-full h-full rounded-full" style={{ background: expr.color, animation: 'pulse-ring 2s ease-out infinite' }} />
+                      <span className="relative inline-flex w-2 h-2 rounded-full" style={{ background: expr.color }} />
+                    </span>
+                    {/* Icon block */}
+                    <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3" style={{ background: `${expr.color}15`, color: expr.color }}>
+                      <expr.Icon size={22} strokeWidth={2.2} />
+                    </div>
+                    <p className="text-sm font-bold uppercase tracking-[0.08em] mb-1.5" style={{ color: C.dark }}>{expr.label}</p>
+                    <p className="text-[11px] leading-relaxed" style={{ color: C.grey }}>{expr.desc}</p>
+                    {/* Bottom accent line that fills on hover */}
+                    <div className="absolute bottom-0 left-0 h-1 rounded-r-full transition-all duration-500 group-hover:w-full" style={{ background: expr.color, width: '20%' }} />
                   </div>
                 ))}
               </div>
@@ -135,43 +145,47 @@ export default function About() {
         <Deco style={{ bottom: '15%', left: '10%', color: C.dark }}>&#x25C8;</Deco>
 
         <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
-            {/* Left — heading + desc */}
-            <div className="lg:col-span-5">
-              <p className="anim-reveal-up delay-0 text-[10px] font-bold uppercase tracking-[0.25em] mb-4" style={{ color: C.azul }}>Seguridad Integrada</p>
-              <h2 className="anim-reveal-up delay-1" style={{ fontSize: 'clamp(28px, 5vw, 64px)', fontWeight: 900, lineHeight: 0.9, letterSpacing: '-0.04em', textTransform: 'uppercase', color: C.dark }}>
-                Más allá de la <span className="italic" style={{ fontWeight: 400, color: C.rosa }}>compañía</span>
-              </h2>
-              <p className="anim-reveal-up delay-2 mt-6 text-base leading-relaxed" style={{ color: C.grey }}>
-                LUMI integra funciones de seguridad importantes. Puede detectar cambios en el entorno como movimiento, temperatura o presencia de humo, y reaccionar ante situaciones de riesgo. También incluye un botón de emergencia SOS que permite enviar alertas rápidas con la ubicación del usuario.
-              </p>
-              {/* Floating mascot */}
-              <div className="anim-scale-in delay-3 mt-10 flex justify-center lg:justify-start">
-                <img src={azulIcon} alt="" className="w-32 lg:w-40 h-auto opacity-60" data-parallax="0.1" style={{ animation: 'float 7s ease-in-out infinite' }} />
+          {/* Header — full width, centered editorial */}
+          <div className="max-w-3xl mx-auto text-center mb-16 lg:mb-20">
+            <p className="anim-reveal-up delay-0 text-[10px] font-bold uppercase tracking-[0.3em] mb-5" style={{ color: C.azul }}>Cuidar sin que lo pidan</p>
+            <h2 className="anim-reveal-up delay-1" style={{ fontSize: 'clamp(32px, 6vw, 80px)', fontWeight: 900, lineHeight: 0.9, letterSpacing: '-0.04em', textTransform: 'uppercase', color: C.dark }}>
+              Estoy ahí cuando <span className="italic" style={{ fontWeight: 400, color: C.rosa }}>tú no puedes</span>
+            </h2>
+            <p className="anim-reveal-up delay-2 mt-8 text-base lg:text-lg leading-relaxed" style={{ color: C.grey }}>
+              Algo se siente raro en casa — y tú estás lejos. Yo no espero a que pase. Noto, aviso, actúo. Para que nadie tenga que correr. Para que tú nunca te quedes sin saber.
+            </p>
+          </div>
+
+          {/* Sensor cards — bold grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6">
+            {[
+              { Icon: Move, label: 'Movimiento', desc: 'Si tu papá se cae, no espera solo. En segundos, todos lo saben — y dónde encontrarlo.', accent: C.rosa },
+              { Icon: Thermometer, label: 'Temperatura', desc: 'Si el frío o el calor se sale de lo normal, te aviso antes de que se vuelva un susto.', accent: C.azul },
+              { Icon: Flame, label: 'Humo', desc: 'Si algo se prende, lo siento al instante. Aviso inmediato a la familia entera.', accent: '#EF4444' },
+              { Icon: ShieldAlert, label: 'SOS', desc: 'Un toque. Solo uno. Y todos los que importan llegan, con la ubicación exacta.', accent: C.neon },
+            ].map((spec, i) => (
+              <div key={spec.label} className={`group anim-reveal-up delay-${Math.min(i + 2, 7)} relative rounded-3xl p-7 lg:p-8 transition-all duration-500 hover:-translate-y-2 overflow-hidden`} style={{ background: C.white, border: `1px solid ${C.dark}08`, boxShadow: `0 4px 20px ${C.dark}06` }}>
+                {/* Big accent corner gradient */}
+                <div className="absolute -top-12 -right-12 w-40 h-40 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" style={{ background: `radial-gradient(circle, ${spec.accent}25 0%, transparent 70%)` }} />
+                {/* Number tag */}
+                <span className="absolute top-5 right-5 text-[10px] font-bold tracking-[0.2em]" style={{ color: `${C.dark}25` }}>0{i + 1}</span>
+                {/* Icon */}
+                <div className="w-14 h-14 lg:w-16 lg:h-16 rounded-2xl flex items-center justify-center mb-5 transition-all duration-300 group-hover:scale-110 group-hover:rotate-[-4deg]" style={{ background: `${spec.accent}12`, color: spec.accent }}>
+                  <spec.Icon size={28} strokeWidth={2} />
+                </div>
+                {/* Label */}
+                <p className="text-lg font-black uppercase tracking-[0.04em] mb-3" style={{ color: C.dark }}>{spec.label}</p>
+                {/* Description */}
+                <p className="text-[13px] leading-relaxed" style={{ color: C.grey }}>{spec.desc}</p>
+                {/* Bottom accent bar — fills on hover */}
+                <div className="absolute bottom-0 left-0 h-1 w-0 group-hover:w-full transition-all duration-500" style={{ background: spec.accent }} />
               </div>
-            </div>
-            {/* Right — sensor specs */}
-            <div className="lg:col-span-7">
-              <div className="space-y-6">
-                {[
-                  { Icon: Radio, label: 'Detección de Movimiento', desc: 'Sensores PIR que detectan presencia, caídas y actividad en el entorno. Alerta inmediata a familiares.', accent: C.rosa },
-                  { Icon: Eye, label: 'Sensor de Temperatura', desc: 'Monitoreo continuo de temperatura ambiental. Detecta cambios bruscos que pueden indicar peligro.', accent: C.azul },
-                  { Icon: Shield, label: 'Detector de Humo', desc: 'Alerta instantánea ante presencia de humo o gases. Activación automática de protocolo de emergencia.', accent: '#EF4444' },
-                  { Icon: Cpu, label: 'Procesador Neural', desc: 'Motor de inteligencia artificial que procesa voz, contexto ambiental y datos de sensores en tiempo real.', accent: C.neon },
-                  { Icon: Lightbulb, label: 'Matriz LED Expresiva', desc: 'Rostro animado que comunica estados emocionales. Más de 20 expresiones diferentes adaptadas al contexto.', accent: C.rosa },
-                ].map((spec, i) => (
-                  <div key={spec.label} className={`anim-slide-right delay-${Math.min(i + 1, 7)} flex items-start gap-5 pb-6 border-b`} style={{ borderColor: `${C.dark}08` }}>
-                    <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300" style={{ background: `${spec.accent}10` }}>
-                      <spec.Icon size={18} style={{ color: spec.accent }} />
-                    </div>
-                    <div>
-                      <p className="text-sm font-bold uppercase tracking-[0.05em] mb-1" style={{ color: C.dark }}>{spec.label}</p>
-                      <p className="text-xs leading-relaxed" style={{ color: C.grey }}>{spec.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+            ))}
+          </div>
+
+          {/* Floating mascot below */}
+          <div className="anim-scale-in delay-5 mt-16 flex justify-center">
+            <img src={azulIcon} alt="" className="w-24 lg:w-32 h-auto opacity-50" data-parallax="0.08" style={{ animation: 'float 7s ease-in-out infinite' }} />
           </div>
         </div>
       </section>
@@ -179,7 +193,7 @@ export default function About() {
       <MarqueeStrip />
 
       {/* ═══ 6. PARA QUIÉN — split panels (dark) ═══ */}
-      <section className="scene relative overflow-hidden py-28 lg:py-40 noise" style={{ background: C.dark }}>
+      <section className="scene relative overflow-hidden py-28 lg:py-40" style={{ background: C.dark }}>
         <BlobBG color={C.rosa} opacity={0.04} className="w-[800px] h-[800px] -top-40 -right-40" />
         <Particles count={6} color={`${C.rosa}15`} />
         <Deco style={{ top: '8%', left: '5%', fontSize: 10, letterSpacing: '0.15em', color: C.grey }}>006</Deco>
@@ -244,7 +258,7 @@ export default function About() {
       <MarqueeStrip />
 
       {/* ═══ 8. ORIGEN — hecho en Latinoamérica (dark) ═══ */}
-      <section className="scene relative overflow-hidden noise" style={{ background: C.dark }}>
+      <section className="scene relative overflow-hidden" style={{ background: C.dark }}>
         <BlobBG color={C.rosa} opacity={0.03} className="w-[700px] h-[700px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
         <Deco style={{ top: '10%', left: '6%' }}>&#x2726;</Deco>
         <Deco style={{ bottom: '12%', right: '10%' }}>&#x25C8;</Deco>

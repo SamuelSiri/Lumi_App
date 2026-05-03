@@ -12,8 +12,8 @@ import {
 import LumiCharacter from '../components/LumiCharacter';
 
 const contactMethods = [
-  { icon: Mail, title: 'Email', value: 'hola@lumi.tech', desc: 'Respuesta en menos de 24h', color: 'rosa' as const },
-  { icon: Phone, title: 'Teléfono', value: '+52 800 LUMI (5864)', desc: 'Lunes a viernes, 9am - 7pm', color: 'azul' as const },
+  { icon: Mail, title: 'Email', value: 'holalumi.info@gmail.com', desc: 'Respuesta en menos de 24h', color: 'rosa' as const },
+  { icon: Phone, title: 'Teléfono', value: '+1 849 828 2023', desc: 'Lunes a viernes, 9am - 7pm', color: 'azul' as const },
   { icon: MessageCircle, title: 'Chat en vivo', value: 'Disponible en la app', desc: 'Respuesta inmediata', color: 'rosa' as const },
   { icon: MapPin, title: 'Oficina', value: 'Ciudad de México', desc: 'Visitas con cita previa', color: 'azul' as const },
 ];

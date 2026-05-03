@@ -2,8 +2,8 @@ import { useEffect, useMemo, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import {
-  Heart, Wifi, Pill, Clock, AlertTriangle, Activity,
-  Dumbbell, UtensilsCrossed, MapPin, Send,
+  Wifi, Pill, Clock, AlertTriangle, Activity,
+  Dumbbell, UtensilsCrossed, MapPin, Send, MessageCircle,
   Thermometer, Bell, Sparkles, Trash2, Plus, TrendingUp,
 } from 'lucide-react';
 import {
@@ -177,7 +177,7 @@ function CustomTooltip({ active, payload, label }: any) {
   return (
     <div className="rounded-xl px-4 py-3" style={{ background: dark, color: 'white', boxShadow: '0 8px 24px rgba(0,0,0,0.2)' }}>
       <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/60">{label}</p>
-      <p className="text-lg font-black mt-1" style={{ color: rosa }}>{payload[0].value} bpm</p>
+      <p className="text-lg font-black mt-1" style={{ color: rosa }}>{payload[0].value} interacciones</p>
     </div>
   );
 }
@@ -220,7 +220,7 @@ export default function Dashboard() {
 
   const activities = [
     { id: 1, text: 'LUMI reprodujo música relajante', time: '14:10', Icon: Activity, color: azul },
-    { id: 2, text: 'Monitoreo de ritmo cardíaco activado', time: '14:23', Icon: Heart, color: rosa },
+    { id: 2, text: 'Conversación cálida de 12 minutos', time: '14:23', Icon: MessageCircle, color: rosa },
     { id: 3, text: 'Recordatorio de Losartán enviado', time: '12:00', Icon: Pill, color: '#F59E0B' },
     { id: 4, text: 'Caminata matutina completada', time: '10:05', Icon: Dumbbell, color: '#22C55E' },
   ];
@@ -235,7 +235,7 @@ export default function Dashboard() {
   );
 
   // Sparkline data per KPI
-  const heartTrend = useMemo(() => Array.from({ length: 12 }, () => 65 + Math.floor(Math.random() * 22)), []);
+  const interactionsTrend = useMemo(() => Array.from({ length: 12 }, () => Math.floor(Math.random() * 12) + 2), []);
   const tempTrend = useMemo(() => Array.from({ length: 12 }, () => 36.2 + Math.random() * 0.8), []);
   const wifiTrend = useMemo(() => Array.from({ length: 12 }, () => 80 + Math.floor(Math.random() * 20)), []);
   const stepsToday = useMemo(() => Array.from({ length: 12 }, () => Math.floor(Math.random() * 600)), []);
@@ -287,17 +287,17 @@ export default function Dashboard() {
 
               <div className="flex items-baseline gap-3">
                 <p className="font-black tracking-tight text-white" style={{ fontSize: 'clamp(64px, 10vw, 112px)', lineHeight: 0.85, letterSpacing: '-0.05em' }}>
-                  {dispositivoLumi.sensores.ritmoCardiaco}
+                  4h
                 </p>
-                <p className="text-xl font-black uppercase tracking-tight" style={{ color: 'rgba(255,255,255,0.6)' }}>bpm</p>
+                <p className="text-xl font-black uppercase tracking-tight" style={{ color: 'rgba(255,255,255,0.6)' }}>32m</p>
               </div>
               <p className="text-[10px] font-bold uppercase tracking-[0.2em] mt-1" style={{ color: 'rgba(255,255,255,0.5)' }}>
-                Ritmo cardíaco · normal
+                Tiempo en compañía · hoy
               </p>
             </div>
 
             <div className="relative mt-auto pt-4">
-              <Sparkline data={heartTrend} color={rosa} height={48} />
+              <Sparkline data={interactionsTrend} color={rosa} height={48} />
             </div>
 
             <div className="relative mt-4 pt-4 grid grid-cols-3 gap-3" style={{ borderTop: `1px solid rgba(255,255,255,0.1)` }}>
@@ -391,7 +391,7 @@ export default function Dashboard() {
         {/* KPI ROW with sparklines */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
           {[
-            { Icon: Heart, label: 'Ritmo cardíaco', value: dispositivoLumi.sensores.ritmoCardiaco, unit: 'bpm', accent: rosa, trend: heartTrend, status: 'Normal', statusColor: '#22C55E' },
+            { Icon: MessageCircle, label: 'Conversaciones', value: 9, unit: '', accent: rosa, trend: interactionsTrend, status: 'Hoy', statusColor: '#22C55E' },
             { Icon: Thermometer, label: 'Temperatura', value: dispositivoLumi.sensores.temperatura, unit: '°C', accent: azul, trend: tempTrend, status: 'Normal', statusColor: '#22C55E' },
             { Icon: Wifi, label: 'Señal WiFi', value: dispositivoLumi.senal, unit: '%', accent: '#22C55E', trend: wifiTrend, status: 'Fuerte', statusColor: '#22C55E' },
             { Icon: Activity, label: 'Pasos hoy', value: '4.2k', unit: '', accent: '#F59E0B', trend: stepsToday, status: '+12%', statusColor: '#22C55E' },
@@ -511,19 +511,19 @@ export default function Dashboard() {
         <motion.div variants={item} className="rounded-2xl p-5 border-2" style={{ background: 'white', borderColor: `${dark}33` }}>
           <div className="flex items-center justify-between mb-4">
             <div>
-              <p className="text-[10px] font-black uppercase tracking-[0.25em]" style={{ color: rosa }}>✦ Salud cardíaca · 24h</p>
+              <p className="text-[10px] font-black uppercase tracking-[0.25em]" style={{ color: rosa }}>✦ Compañía · 24h</p>
               <h3 className="font-black uppercase tracking-tight text-2xl mt-1" style={{ color: dark }}>
-                Ritmo a lo largo del día
+                Interacciones por hora
               </h3>
             </div>
             <div className="flex items-center gap-3">
               <div className="text-right">
-                <p className="text-[9px] font-black uppercase tracking-[0.2em]" style={{ color: grey }}>Promedio</p>
-                <p className="text-xl font-black tracking-tight" style={{ color: dark }}>72 <span className="text-xs" style={{ color: grey }}>bpm</span></p>
+                <p className="text-[9px] font-black uppercase tracking-[0.2em]" style={{ color: grey }}>Total</p>
+                <p className="text-xl font-black tracking-tight" style={{ color: dark }}>87 <span className="text-xs" style={{ color: grey }}>charlas</span></p>
               </div>
               <div className="flex items-center gap-1 px-2.5 py-1 rounded-full" style={{ background: '#22C55E10' }}>
                 <TrendingUp size={11} style={{ color: '#22C55E' }} />
-                <span className="text-[9px] font-black uppercase tracking-[0.2em]" style={{ color: '#22C55E' }}>Estable</span>
+                <span className="text-[9px] font-black uppercase tracking-[0.2em]" style={{ color: '#22C55E' }}>+18%</span>
               </div>
             </div>
           </div>
@@ -537,9 +537,9 @@ export default function Dashboard() {
               </defs>
               <CartesianGrid strokeDasharray="3 3" stroke={`${dark}06`} />
               <XAxis dataKey="hora" tick={{ fontSize: 10, fill: '#a3a3a3' }} axisLine={false} tickLine={false} />
-              <YAxis domain={[55, 95]} tick={{ fontSize: 10, fill: '#a3a3a3' }} axisLine={false} tickLine={false} />
+              <YAxis tick={{ fontSize: 10, fill: '#a3a3a3' }} axisLine={false} tickLine={false} />
               <Tooltip content={<CustomTooltip />} />
-              <Area type="monotone" dataKey="ritmoCardiaco" stroke={rosa} strokeWidth={2.5} fill="url(#grad)" />
+              <Area type="monotone" dataKey="interacciones" stroke={rosa} strokeWidth={2.5} fill="url(#grad)" />
             </AreaChart>
           </ResponsiveContainer>
         </motion.div>
